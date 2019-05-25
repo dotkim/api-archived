@@ -17,7 +17,11 @@ async function images() {
     let imageArr = [];
 
     data.forEach((image) => {
+      if (image === '.comments') continue;
+
       let extension = image.split('.').pop();
+      if (!extension) continue;
+      
       imageArr.push({
         "file": {
           "fileName": image,
