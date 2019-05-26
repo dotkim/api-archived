@@ -17,10 +17,10 @@ async function images() {
     let imageArr = [];
 
     data.forEach((image) => {
-      if (image === '.comments') continue;
+      if (image === '.comments') return;
 
       let extension = image.split('.').pop();
-      if (!extension) continue;
+      if (!extension) return;
       
       imageArr.push({
         "file": {
