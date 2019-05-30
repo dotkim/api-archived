@@ -1,40 +1,27 @@
 require('dotenv').config();
-const fs = require('fs');
 const dateString = require('../components/dateString.js');
 const mongo = require('../data/mongo.js');
 
 const db = new mongo();
 
-async function images() {
+async function images(page) {
   try {
-    let data = await fs.readdirSync(process.env.IMAGEDIR);
-
+    page = Number(page);
+    let qryPage = page - 1;
+    let data = await db.getImages(qryPage);
     if (!data) return { statuscode: 404 };
 
+    let count = Math.ceil(Number(data.imageCount) / 30);
     let obj = {
-      current_page: 1,
-      number_of_pages: 5,
-      next: "",
-      previous: ""
+      current_page: page,
+      number_of_pages: count,
+      next: undefined,
+      previous: undefined,
+      images: data.images
     };
-    let imageArr = [];
 
-    data.forEach((image) => {
-      if (image === '.comments') return;
-
-      let extension = image.split('.').pop();
-      if (!extension) return;
-      
-      imageArr.push({
-        "file": {
-          "fileName": image,
-          "contentType": "image/" + extension,
-          "url": process.env.IMAGEDIR + image
-        }
-      });
-    });
-
-    obj["images"] = imageArr;
+    if (data.images.length === 30) obj.next = page + 1;
+    if (page > 1) obj.previous = page - 1;
 
     return { content: obj, statuscode: 200 };
   }
