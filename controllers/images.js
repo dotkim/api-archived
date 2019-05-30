@@ -1,6 +1,9 @@
 require('dotenv').config();
 const fs = require('fs');
 const dateString = require('../components/dateString.js');
+const mongo = require('../data/mongo.js');
+
+const db = new mongo();
 
 async function images() {
   try {
