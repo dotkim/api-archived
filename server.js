@@ -7,7 +7,7 @@ const jsonParser = require('body-parser').json({ type: 'application/json' });
 console.log('############### WEB SERVER START UP ###############');
 console.log(dateString(), '- starting http server')
 
-const port = process.env.HTTPPORT;
+const port = process.env.HTTPPORT || 80;
 
 const app = new express();
 app.disable('x-powered-by');
