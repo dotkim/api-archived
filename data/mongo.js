@@ -42,16 +42,11 @@ class MongoDb {
 
   // get all images, 
   async getImages(page) {
-    if (page !== 0) {
-      let skip = process.env.MAXIMAGEAMOUNT * page
-      return this.images
-        .find({})
-        .skip(skip)
-        .sort({ createdAt: -1 })
-        .limit(30);
-    }
+    let skip = 0;
+    if (page !== 0) skip = process.env.MAXIMAGEAMOUNT * page;
     return this.images
       .find({})
+      .skip(skip)
       .sort({ createdAt: -1 })
       .limit(30);
   }
