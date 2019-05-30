@@ -13,7 +13,7 @@ async function images(page) {
     let data = await db.getImages(qryPage);
     if (!data) return { statuscode: 404 };
 
-    let count = Math.ceil(Number(data.imageCount) / 30);
+    let count = Math.ceil(Number(data.imageCount) / data.limit);
     let obj = {
       current_page: page,
       number_of_pages: count,
@@ -22,7 +22,7 @@ async function images(page) {
       images: data.images
     };
 
-    if (data.images.length === 30) obj.next = page + 1;
+    if (data.images.length === data.limit) obj.next = page + 1;
     if (page > 1) obj.previous = page - 1;
 
     return { content: obj, statuscode: 200 };

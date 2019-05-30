@@ -39,16 +39,17 @@ class MongoDb {
   // get all images, this returns a pagewise response
   async getImages(page) {
     let skip = 0;
-    if (page !== 0) skip = process.env.MAXIMAGEAMOUNT * page;
+    let limit = Number(process.env.MAXIMAGEAMOUNT);
+    if (page !== 0) skip = limit * page;
 
     let imgs = await this.images
       .find({})
       .skip(skip)
       .sort({ createdAt: -1 })
-      .limit(30);
+      .limit(limit);
 
     let imageCount = await this.images.countDocuments({});
-    return { imageCount: imageCount, images: imgs };
+    return { imageCount: imageCount, images: imgs, limit: limit };
   }
 }
 
