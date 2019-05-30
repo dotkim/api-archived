@@ -7,6 +7,8 @@ const db = new mongo();
 async function images(page) {
   try {
     page = Number(page);
+    if ((typeof page !== 'number') || (!page)) page = Number(1);
+
     let qryPage = page - 1;
     let data = await db.getImages(qryPage);
     if (!data) return { statuscode: 404 };
