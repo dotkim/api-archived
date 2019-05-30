@@ -30,25 +30,25 @@ class MongoDb {
     this.images = mongoose.model('image', imageSchema);
   }
 
-  // this function takes an object in the form of the Schema.
+  // this function takes an object in the form of the Schema
   async addImage(obj) {
     console.log(obj);
     return this.images.create(obj);
   }
 
-  async getImage(image) {
-    return this.images.find({ image })
-  }
-
-  // get all images, 
+  // get all images, this returns a pagewise response
   async getImages(page) {
     let skip = 0;
     if (page !== 0) skip = process.env.MAXIMAGEAMOUNT * page;
-    return this.images
+
+    let imgs = await this.images
       .find({})
       .skip(skip)
       .sort({ createdAt: -1 })
       .limit(30);
+
+    let imageCount = await this.images.countDocuments({});
+    return { imageCount: imageCount, images: imgs };
   }
 }
 
