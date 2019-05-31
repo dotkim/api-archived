@@ -15,7 +15,9 @@ app.use(jsonParser);
 app.use(express.static('public'));
 app.use(express.static(process.env.IMGPATH));
 
-app.use('/', require('./public/index.html'));
+app.use('/', (req, res) => {
+  res.sendFile('./public/index.html');
+});
 app.use('/images', require('./routes/images.js'));
 app.use('/insert', require('./routes/insert.js'));
 
