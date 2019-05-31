@@ -32,7 +32,6 @@ class MongoDb {
 
   // this function takes an object in the form of the Schema
   async addImage(obj) {
-    console.log(obj);
     return this.images.create(obj);
   }
 

@@ -4,6 +4,8 @@ const dateString = require('../components/dateString.js');
 
 router.route('/:name').post(async (req, res) => {
   try {
+    console.log(dateString(), '-', req.method, req.originalUrl, req.headers.host);
+
     let name = req.params.name
     let data = await insert(name);
     res.status(data.statuscode);
