@@ -13,9 +13,9 @@ const allowedExt = [
 
 const path = process.env.IMGPATH;
 
-module.exports = async function (name) {
+module.exports = async function (name, folder) {
   try {
-    if (!name) return { statuscode: 404 };
+    if (!name || !folder) return { statuscode: 404 };
 
     let extension = name.split('.').pop();
     if (!extension) return { statuscode: 400 };
@@ -25,7 +25,7 @@ module.exports = async function (name) {
       fileName: name,
       contentType: 'image/' + extension,
       extension: extension,
-      url: path + name
+      url: path + folder + '/' + name
     };
 
     let data = db.addImage(obj);

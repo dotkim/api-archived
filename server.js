@@ -13,6 +13,9 @@ const app = new express();
 app.disable('x-powered-by');
 app.use(jsonParser);
 
+app.use(express.static('public'));
+app.use(express.static(process.env.IMGPATHSTATIC));
+
 app.use('/images', require('./routes/images.js'));
 app.use('/insert', require('./routes/insert.js'));
 
