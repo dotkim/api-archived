@@ -11,7 +11,7 @@ const allowedExt = [
   'gif'
 ]
 
-const path = process.env.PATH;
+const path = process.env.IMGPATH;
 
 module.exports = async function (name) {
   try {
