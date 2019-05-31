@@ -43,6 +43,7 @@ class MongoDb {
 
     let imgs = await this.images
       .find({})
+      .select("-_id -__v")
       .skip(skip)
       .sort({ createdAt: -1 })
       .limit(limit);
