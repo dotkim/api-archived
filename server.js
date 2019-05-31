@@ -5,7 +5,7 @@ const dateString = require('./components/dateString.js');
 const jsonParser = require('body-parser').json({ type: 'application/json' });
 
 console.log('############### WEB SERVER START UP ###############');
-console.log(dateString(), '- starting http server')
+console.log(dateString(), '- starting http server');
 
 const port = process.env.HTTPPORT || 80;
 

@@ -4,6 +4,22 @@ const mongo = require('../data/mongo.js');
 
 const db = new mongo();
 
+function createObject(data, page) {
+  let count = Math.ceil(Number(data.imageCount) / data.limit);
+  let obj = {
+    current_page: page,
+    number_of_pages: count,
+    next: undefined,
+    previous: undefined,
+    images: data.images
+  };
+
+  if (data.images.length === data.limit) obj.next = page + 1;
+  if (page > 1) obj.previous = page - 1;
+
+  return obj;
+}
+
 async function images(page) {
   try {
     page = Number(page);
@@ -13,17 +29,7 @@ async function images(page) {
     let data = await db.getImages(qryPage);
     if (!data) return { statuscode: 404 };
 
-    let count = Math.ceil(Number(data.imageCount) / 30);
-    let obj = {
-      current_page: page,
-      number_of_pages: count,
-      next: undefined,
-      previous: undefined,
-      images: data.images
-    };
-
-    if (data.images.length === 30) obj.next = page + 1;
-    if (page > 1) obj.previous = page - 1;
+    let obj = createObject(data, page);
 
     return { content: obj, statuscode: 200 };
   }

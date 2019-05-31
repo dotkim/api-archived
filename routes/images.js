@@ -4,7 +4,7 @@ const dateString = require('../components/dateString.js');
 
 router.route('/').get(async (req, res) => {
   try {
-    console.log(dateString(), '-', req.method, req.originalUrl);
+    console.log(dateString(), '-', req.method, req.originalUrl, req.headers.host);
 
     let page = req.query.page;
     if (!page) page = '1';
