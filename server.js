@@ -13,7 +13,7 @@ const app = new express();
 app.disable('x-powered-by');
 app.use(jsonParser);
 app.use(express.static('public'));
-app.use(express.static(process.env.IMGPATH));
+app.use(express.static(process.env.IMGPATHSTATIC));
 
 app.use('/', (req, res) => {
   res.sendFile('./public/index.html');
