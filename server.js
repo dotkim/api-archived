@@ -14,6 +14,7 @@ app.disable('x-powered-by');
 app.use(jsonParser);
 
 app.use('/images', require('./routes/images.js'));
+app.use('/insert', require('./routes/insert.js'));
 
 http.createServer(app).listen(port);
 console.log(dateString(), '- listening on port', port);
