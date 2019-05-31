@@ -2,7 +2,7 @@ const router = require('express').Router();
 const insert = require('../controllers/insert.js');
 const dateString = require('../components/dateString.js');
 
-module.exports = router.route('/:name').post(async (req, res) => {
+router.route('/:name').post(async (req, res) => {
   try {
     let name = req.params.name
     let data = await insert(name);
@@ -16,3 +16,5 @@ module.exports = router.route('/:name').post(async (req, res) => {
     res.sendStatus(500);
   }
 });
+
+module.exports = router;
