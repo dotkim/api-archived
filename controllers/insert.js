@@ -25,7 +25,7 @@ module.exports = async function (name, folder) {
       fileName: name,
       contentType: 'image/' + extension,
       extension: extension,
-      url: path + folder + name
+      url: path + folder + '/' + name
     };
 
     let data = db.addImage(obj);
