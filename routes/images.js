@@ -4,12 +4,8 @@ const dateString = require('../components/dateString.js');
 
 router.route('/').get(async (req, res) => {
   try {
-    console.log(dateString(), '-', req.method, req.originalUrl, req.headers.host);
-
-    let page = req.query.page;
-    if (!page) page = '1';
-
-    let data = await images(page);
+    console.log(dateString(), '-', req.method, req.originalUrl);
+    let data = await images(req.query.page);
 
     res.set('Access-Control-Allow-Origin', '*');
     res.status(data.statuscode);
