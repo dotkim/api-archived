@@ -25,8 +25,8 @@ module.exports = async function (name) {
       fileName: name,
       contentType: 'image/' + extension,
       extension: extension,
-      url: path + '/' + name,
-      thumbnail: path + '/thumbnails/' + name,
+      url: path + name,
+      thumbnail: path + 'thumbnails/' + name,
       tags: [ 'tagme' ]
     };
 
