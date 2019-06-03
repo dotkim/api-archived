@@ -1,8 +1,8 @@
 require('dotenv').config();
 const dateString = require('../components/dateString.js');
-const mongo = require('../data/mongo.js');
+const Mongo = require('../data/mongo.js');
 
-const db = new mongo();
+const db = new Mongo();
 
 function createObject(data, page) {
   let count = Math.ceil(Number(data.imageCount) / data.limit);

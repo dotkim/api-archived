@@ -12,7 +12,7 @@ const imageSchema = new Schema(
   { timestamps: true }
 );
 
-class MongoDb {
+module.exports = class {
   constructor() {
     this.conn = mongoose.connect(
       process.env.MONGOOSE_MONGOURI, {
@@ -52,5 +52,3 @@ class MongoDb {
     return { imageCount: imageCount, images: imgs, limit: limit };
   }
 }
-
-module.exports = MongoDb;
