@@ -2,11 +2,11 @@ const router = require('express').Router();
 const insert = require('../controllers/insert.js');
 const dateString = require('../components/dateString.js');
 
-router.route('/:name/:folder').post(async (req, res) => {
+router.route('/:name/').post(async (req, res) => {
   try {
     console.log(dateString(), '-', req.method, req.originalUrl);
 
-    let data = await insert(req.params.name, req.params.folder);
+    let data = await insert(req.params.name);
     res.status(data.statuscode);
     if (data.statuscode) res.json(data.inserted);
     res.end();
