@@ -15,7 +15,7 @@ const path = process.env.IMGPATH;
 
 module.exports = async function (name) {
   try {
-    if (!name || !folder) return { statuscode: 404 };
+    if (!name) return { statuscode: 404 };
 
     let extension = name.split('.').pop();
     if (!extension) return { statuscode: 400 };

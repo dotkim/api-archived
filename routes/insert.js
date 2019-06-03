@@ -2,7 +2,7 @@ const router = require('express').Router();
 const insert = require('../controllers/insert.js');
 const dateString = require('../components/dateString.js');
 
-router.route('/:name/').post(async (req, res) => {
+router.route('/:name').post(async (req, res) => {
   try {
     console.log(dateString(), '-', req.method, req.originalUrl);
 
