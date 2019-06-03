@@ -9,13 +9,13 @@ const allowedExt = [
   'jpg',
   'jpeg',
   'gif'
-]
+];
 
 const path = process.env.IMGPATH;
 
-module.exports = async function (name, folder) {
+module.exports = async function (name) {
   try {
-    if (!name || !folder) return { statuscode: 404 };
+    if (!name) return { statuscode: 404 };
 
     let extension = name.split('.').pop();
     if (!extension) return { statuscode: 400 };
@@ -25,7 +25,9 @@ module.exports = async function (name, folder) {
       fileName: name,
       contentType: 'image/' + extension,
       extension: extension,
-      url: path + folder + '/' + name
+      url: path + name,
+      thumbnail: path + 'thumbnails/' + name,
+      tags: [ 'tagme' ]
     };
 
     let data = db.addImage(obj);

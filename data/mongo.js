@@ -4,15 +4,17 @@ const Schema = mongoose.Schema;
 
 const imageSchema = new Schema(
   {
-    "fileName": String,
-    "contentType": String,
-    "extension": String,
-    "url": String
+    'fileName': String,
+    'contentType': String,
+    'extension': String,
+    'url': String,
+    'thumbnail': String,
+    'tags': Array
   },
   { timestamps: true }
 );
 
-class MongoDb {
+module.exports = class {
   constructor() {
     this.conn = mongoose.connect(
       process.env.MONGOOSE_MONGOURI, {
@@ -52,5 +54,3 @@ class MongoDb {
     return { imageCount: imageCount, images: imgs, limit: limit };
   }
 }
-
-module.exports = MongoDb;
