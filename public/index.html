@@ -100,10 +100,10 @@
               dev.attr('class', 'grid-item');
 
               let link = $('<a>');
-              link.attr('href', image.thumbnail);
+              link.attr('href', image.url);
 
               let img = $('<img>');
-              img.attr('src', image.url);
+              img.attr('src', image.thumbnail);
               img.appendTo(link);
               link.appendTo(dev);
 
