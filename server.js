@@ -12,9 +12,22 @@ const port = process.env.HTTPPORT || 80;
 const app = new express();
 app.disable('x-powered-by');
 app.use(jsonParser);
+
 // Global logging
 app.use(function(req, res, next) {
-  console.log(dateString(), '-', req.method, req.originalUrl);
+  let start = Date.now();
+  res.setHeader('Access-Control-Allow-Origin', '*');                                        // Website you wish to allow to connect
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');  // Request methods you wish to allow
+  res.setHeader('Access-Control-Allow-Headers', '*');                                       // Request headers you wish to allow
+  res.setHeader('Access-Control-Allow-Credentials', false);                                 // Set to true if you need the website to include cookies
+  
+  res.on('finish', function() {
+    var code = res._header ? String(res.statusCode) : String(-1);
+    var duration = Date.now() - start;
+    console.log(dateString(), '-', req.method, req.originalUrl, duration, code);
+  });
+
+  // Pass to next layer of middleware
   next();
 });
 

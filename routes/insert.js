@@ -5,7 +5,6 @@ const dateString = require('../components/dateString.js');
 router.route('/:name').post(async (req, res) => {
   try {
     let data = await insert(req.params.name);
-    res.set('Access-Control-Allow-Origin', '*');
     res.status(data.statuscode);
     if (data.statuscode) res.json(data.inserted);
     res.end();

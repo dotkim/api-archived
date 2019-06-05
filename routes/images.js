@@ -5,7 +5,6 @@ const dateString = require('../components/dateString.js');
 router.route('/').get(async (req, res) => {
   try {
     let data = await images(req.query.page);
-    res.set('Access-Control-Allow-Origin', '*');
     res.status(data.statuscode);
     if (data.statuscode === 200) res.json(data.content);
     res.end();
