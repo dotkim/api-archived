@@ -39,7 +39,8 @@
         text-align: center;
       }
 
-      .page-item, .page-link {
+      .page-item,
+      .page-link {
         background-color: black;
         color: white;
         border: 0px;
@@ -63,6 +64,13 @@
             <a href="?page=1">
               <h1 class="text-hide" style="background-image: url('knerliimages.png');width: 278px;height: 49px;"></h1>
             </a>
+          </div>
+          <div class="col-xs m-2">
+            <div class="btn-group-toggle active" data-toggle="buttons">
+              <label class="btn btn-danger">
+                <input id="nsfwcheck" type="checkbox" checked autocomplete="off"> NSFW
+              </label>
+            </div>
           </div>
         </div>
       </div>
@@ -88,13 +96,16 @@
     <script>
 
       function getImages(page) {
-        fetch('http://165.227.149.145/images/?page=' + page)
+        fetch('http://knerli.no/images/?page=' + page)
           .then(function (response) {
             return response.json();
           })
           .then(function (myJson) {
-            console.log(JSON.stringify(myJson));
             myJson.images.forEach(function (image) {
+              let nsfw = document.getElementById("nsfwcheck");
+              if (nsfw.checked == false) {
+                if (image.tags.includes('tagme')) return; // skip 'nsfw' images
+              }
 
               let dev = $('<div>');
               dev.attr('class', 'grid-item');
