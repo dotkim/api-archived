@@ -30,7 +30,7 @@ module.exports = async function (name) {
       tags: [ 'tagme' ]
     };
 
-    let data = db.addImage(obj);
+    let data = await db.addImage(obj);
     if (!data) return { statuscode: 404 };
     return { inserted: data, statuscode: 200 };
   }
