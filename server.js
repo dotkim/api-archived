@@ -12,6 +12,11 @@ const port = process.env.HTTPPORT || 80;
 const app = new express();
 app.disable('x-powered-by');
 app.use(jsonParser);
+// Global logging
+app.use(function(req, res, next) {
+  console.log(dateString(), '-', req.method, req.originalUrl);
+  next();
+});
 
 app.use(express.static('public'));
 app.use(express.static(process.env.IMGPATHSTATIC, require('./routes/static.js')));
