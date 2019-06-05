@@ -34,7 +34,7 @@ module.exports = class {
 
   // this function takes an object in the form of the Schema
   async addImage(obj) {
-    return this.images.create(obj);
+    return await this.images.create(obj);
   }
 
   // get all images, this returns a pagewise response
