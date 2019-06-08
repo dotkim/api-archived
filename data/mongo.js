@@ -38,19 +38,38 @@ module.exports = class {
   }
 
   // get all images, this returns a pagewise response
-  async getImages(page) {
+  // mode 1 allows all
+  // mode 0 filters NSFW images
+  // Currently all images with the tagme tag are NSFW.
+  // this is to stop new uploads to apear if they are nsfw...
+  async getImages(page, mode) {
     let skip = 0;
     let limit = Number(process.env.MAXIMAGEAMOUNT);
     if (page !== 0) skip = limit * page;
+    if (!mode) let mode = 1
 
-    let imgs = await this.images
-      .find({})
-      .select("-_id -__v")
-      .skip(skip)
-      .sort({ createdAt: -1 })
-      .limit(limit);
+    let imgs;
+    let imageCount;
 
-    let imageCount = await this.images.countDocuments({});
-    return { imageCount: imageCount, images: imgs, limit: limit };
+    if (mode === 1) {
+      imgs = await this.images
+        .find({})
+        .select("-_id -__v")
+        .skip(skip)
+        .sort({ createdAt: -1 })
+        .limit(limit);
+        imageCount = await this.images.countDocuments({});
+      }
+      else if (mode === 0) {
+        imgs = await this.images
+        .find({ 'tags': { $nin: ['tagme'] } })
+        .select("-_id -__v")
+        .skip(skip)
+        .sort({ createdAt: -1 })
+        .limit(limit);
+        imageCount = await this.images.countDocuments({ 'tags': { $nin: ['tagme'] } });
+      }
+      
+      return { imageCount: imageCount, images: imgs, limit: limit };
   }
 }
