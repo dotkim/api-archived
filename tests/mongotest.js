@@ -30,4 +30,4 @@ const imageSchema = new Schema(
 
 let images = mongoose.model('image', imageSchema);
 
-images.find({ 'tags': { $nin: [ 'tagme'] } }).then(console.log).catch(console.error);
+images.find().then(console.log).catch(console.error);
