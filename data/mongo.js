@@ -2,30 +2,29 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const imageSchema = new Schema(
-  {
-    'fileName': String,
-    'contentType': String,
-    'extension': String,
-    'url': String,
-    'thumbnail': String,
-    'tags': Array
-  },
-  { timestamps: true }
-);
+const imageSchema = new Schema({
+  'fileName': String,
+  'contentType': String,
+  'extension': String,
+  'url': String,
+  'thumbnail': String,
+  'tags': Array
+}, {
+  timestamps: true
+});
 
 module.exports = class {
   constructor() {
     this.conn = mongoose.connect(
       process.env.MONGOOSE_MONGOURI, {
         useNewUrlParser: true,
-        useCreateIndex: true,                 // use this to remove the warning: DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
+        useCreateIndex: true, // use this to remove the warning: DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
         //user: process.env.MONGOOSE_USERNAME,
         //pass: process.env.MONGOOSE_PASSWORD,
         dbName: process.env.MONGOOSE_DBNAME
       },
       function (err) {
-        if (err) console.error('Failed to connect to mongo', err);    // this might be changed to do some better errorhandling later...
+        if (err) console.error('Failed to connect to mongo', err); // this might be changed to do some better errorhandling later...
       }
     );
 
@@ -54,23 +53,38 @@ module.exports = class {
 
     if (mode === 1) {
       imgs = await this.images
-        .find({})
+        .find()
         .select("-_id -__v")
         .skip(skip)
-        .sort({ createdAt: -1 })
+        .sort({
+          createdAt: -1
+        })
         .limit(limit);
-        imageCount = await this.images.countDocuments({});
-      }
-      else if (mode === 0) {
-        imgs = await this.images
-        .find({ 'tags': { $nin: ['tagme'] } })
+      imageCount = await this.images.countDocuments();
+    } else if (mode === 0) {
+      imgs = await this.images
+        .find({
+          'tags': {
+            $nin: ['tagme']
+          }
+        })
         .select("-_id -__v")
         .skip(skip)
-        .sort({ createdAt: -1 })
+        .sort({
+          createdAt: -1
+        })
         .limit(limit);
-        imageCount = await this.images.countDocuments({ 'tags': { $nin: ['tagme'] } });
-      }
-      console.log(imgs);
-      return { imageCount: imageCount, images: imgs, limit: limit };
+      imageCount = await this.images.countDocuments({
+        'tags': {
+          $nin: ['tagme']
+        }
+      });
+    }
+
+    return {
+      imageCount: imageCount,
+      images: imgs,
+      limit: limit
+    };
   }
 }
