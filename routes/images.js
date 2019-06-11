@@ -4,7 +4,7 @@ const dateString = require('../components/dateString.js');
 
 router.route('/').get(async (req, res) => {
   try {
-    let data = await images(req.query.page);
+    let data = await images(req.query.page, req.query.filter);
     res.status(data.statuscode);
     if (data.statuscode === 200) res.json(data.content);
     res.end();

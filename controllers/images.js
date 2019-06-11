@@ -20,13 +20,13 @@ function createObject(data, page) {
   return obj;
 }
 
-async function images(page) {
+async function images(page, mode) {
   try {
     page = Number(page);
     if ((typeof page !== 'number') || (!page)) page = Number(1);
 
     let qryPage = page - 1;
-    let data = await db.getImages(qryPage);
+    let data = await db.getImages(qryPage, mode);
     if (!data) return { statuscode: 404 };
 
     let obj = createObject(data, page);
