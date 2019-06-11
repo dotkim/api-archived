@@ -22,7 +22,6 @@ function createObject(data, page) {
 
 async function images(page, mode) {
   try {
-    console.log('page:', page, 'filter:', filter);
     page = Number(page);
     mode = Number(mode);
     if ((typeof page !== 'number') || (!page)) page = Number(1);
