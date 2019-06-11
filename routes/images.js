@@ -7,6 +7,7 @@ router.route('/').get(async (req, res) => {
     let page = req.query.page;
     let filter = req.query.filter;
 
+    console.log('page:', page, 'filter:', filter);
     let data = await images(page, filter);
     
     res.status(data.statuscode);
