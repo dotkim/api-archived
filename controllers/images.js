@@ -23,7 +23,9 @@ function createObject(data, page) {
 async function images(page, mode) {
   try {
     page = Number(page);
+    mode = Number(mode);
     if ((typeof page !== 'number') || (!page)) page = Number(1);
+    if ((typeof mode !== 'number') || (!mode)) mode = Number(1);
 
     let qryPage = page - 1;
     let data = await db.getImages(qryPage, mode);
