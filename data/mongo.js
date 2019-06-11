@@ -46,7 +46,6 @@ module.exports = class {
     let skip = 0;
     let limit = Number(process.env.MAXIMAGEAMOUNT);
     if (page !== 0) skip = limit * page;
-    if (!mode) mode = 1
 
     let imgs;
     let imageCount;
