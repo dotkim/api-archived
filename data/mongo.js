@@ -37,8 +37,8 @@ module.exports = class {
   }
 
   // get all images, this returns a pagewise response
-  // mode 1 allows all
-  // mode 0 filters NSFW images
+  // mode 0 allows all
+  // mode 1 filters NSFW images
   // Currently all images with the tagme tag are NSFW.
   // this is to stop new uploads to apear if they are nsfw...
   async getImages(page, mode) {
@@ -50,7 +50,7 @@ module.exports = class {
     let imgs;
     let imageCount;
 
-    if (mode === 1) {
+    if (mode === 0) {
       imgs = await this.images
         .find()
         .select("-_id -__v")
@@ -60,7 +60,7 @@ module.exports = class {
         })
         .limit(limit);
       imageCount = await this.images.countDocuments();
-    } else if (mode === 0) {
+    } else if (mode === 1) {
       imgs = await this.images
         .find({
           'tags': {

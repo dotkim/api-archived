@@ -68,8 +68,8 @@
           </div>
           <div class="col-xs m-2">
             <div class="btn-group-toggle" data-toggle="buttons">
-              <label class="btn btn-danger active">
-                <input id="nsfwcheck" type="checkbox" checked autocomplete="off"> NSFW
+              <label class="btn btn-danger">
+                <input id="nsfwcheck" type="checkbox" autocomplete="off"> NSFW
               </label>
             </div>
           </div>
@@ -170,8 +170,22 @@
       window.onload = function () {
         let q = getUrlVars();
         let filter = toggleState();
+        let nsfwCheck = document.getElementById("nsfwcheck");
 
         if (!localStorage.nsfwFilter) {
+          localStorage.nsfwFilter = filter;
+        }
+
+        if (localStorage.nsfwFilter) {
+          nsfwCheck.checked = localStorage.nsfwFilter;
+        }
+        
+        if (filter == '1') {
+          nsfwCheck.checked = true;
+          localStorage.nsfwFilter = filter;
+        }
+        else {
+          nsfwCheck.checked = false;
           localStorage.nsfwFilter = filter;
         }
 
@@ -181,9 +195,9 @@
 
         getImages(q.page, filter);
 
-        let nsfwCheck = document.getElementById("nsfwcheck");
-        nsfwCheck.on('change', function() {
+        nsfwCheck.on('change', function () {
           localStorage.nsfwFilter = nsfwCheck.checked;
+          console.log('check changed:', nsfwCheck.checked);
         });
       }
 
