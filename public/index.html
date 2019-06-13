@@ -52,7 +52,8 @@
       }
     </style>
 
-    <link rel="icon" href="favicon.png">
+    <base href="http://images.knerli.no" />
+    <link rel="icon" href="favicon.png" />
     <title>images</title>
   </head>
 
@@ -61,7 +62,7 @@
       <div class="container d-flex float-left ml-5">
         <div class="row">
           <div id="headercol" class="col-xl rounded-bottom">
-            <a href="?page=1">
+            <a href="">
               <h1 class="text-hide" style="background-image: url('knerliimages.png');width: 278px;height: 49px;"></h1>
             </a>
           </div>
@@ -94,18 +95,23 @@
       crossorigin="anonymous"></script>
 
     <script>
+      function toggleState() {
+        let nsfw = document.getElementById("nsfwcheck");
+        if (nsfw.checked == false) {
+          return 0;
+        }
+        else {
+          return 1;
+        }
+      }
 
-      function getImages(page) {
-        fetch('http://knerli.no/images/?page=' + page)
+      function getImages(page, filter) {
+        fetch('http://knerli.no/images/?page=' + page + '&filter=' + filter)
           .then(function (response) {
             return response.json();
           })
           .then(function (myJson) {
             myJson.images.forEach(function (image) {
-              let nsfw = document.getElementById("nsfwcheck");
-              if (nsfw.checked == false) {
-                if (image.tags.includes('tagme')) return; // skip 'nsfw' images
-              }
 
               let dev = $('<div>');
               dev.attr('class', 'grid-item');
@@ -163,7 +169,22 @@
 
       window.onload = function () {
         let q = getUrlVars();
-        getImages(q.page);
+        let filter = toggleState();
+
+        if (!localStorage.nsfwFilter) {
+          localStorage.nsfwFilter = filter;
+        }
+
+        if (!q.page) {
+          q.page = 1
+        }
+
+        getImages(q.page, filter);
+
+        let nsfwCheck = document.getElementById("nsfwcheck");
+        nsfwCheck.on('change', function() {
+          localStorage.nsfwFilter = nsfwCheck.checked;
+        });
       }
 
     </script>
