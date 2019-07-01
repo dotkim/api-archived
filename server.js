@@ -32,9 +32,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(express.static('public'));
 app.use(express.static(process.env.IMGPATHSTATIC, require('./routes/static.js')));
-
 app.use('/images', require('./routes/images.js'));
 app.use('/insert', require('./routes/insert.js'));
 
