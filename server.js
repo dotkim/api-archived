@@ -16,15 +16,17 @@ app.use(jsonParser);
 // Global logging
 app.use(function(req, res, next) {
   let start = Date.now();
+
   res.setHeader('Access-Control-Allow-Origin', '*');          // Website you wish to allow to connect
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST'); // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Headers', '*');         // Request headers you wish to allow
   res.setHeader('Access-Control-Allow-Credentials', false);   // Set to true if you need the website to include cookies
   
+  // listener for logging the requests that come in
   res.on('finish', function() {
     let code = res._header ? String(res.statusCode) : String(-1);
     let duration = Date.now() - start;
-    let source = res.headers;
+    let source = req.get('X-Forwarded-For');
     console.log(dateString(), '-', req.method, req.originalUrl, duration, code, source);
   });
 
