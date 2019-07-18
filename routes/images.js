@@ -8,8 +8,6 @@ router.route('/').get(async (req, res) => {
   try {
     let parsedUrl = url.parse(req.url);
     let parsedQuery = querystring.parse(parsedUrl.query);
-    console.log('parsed:', parsedQuery);
-
     let data = await images(parsedQuery.page, parsedQuery.filter);
     
     res.status(data.statuscode);

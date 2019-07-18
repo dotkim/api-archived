@@ -42,7 +42,6 @@ module.exports = class {
   // Currently all images with the tagme tag are NSFW.
   // this is to stop new uploads to apear if they are nsfw...
   async getImages(page, mode) {
-    console.log(typeof mode, mode);
     let skip = 0;
     let limit = Number(process.env.MAXIMAGEAMOUNT);
     if (page !== 0) skip = limit * page;

@@ -1,4 +1,3 @@
-require('dotenv').config();
 const dateString = require('../components/dateString.js');
 const Mongo = require('../data/mongo.js');
 
@@ -24,7 +23,6 @@ async function images(page, mode) {
   try {
     page = Number(page);
     mode = Number(mode);
-    console.log('page:', page, 'mode:', mode);
     if ((typeof page !== 'number') || (!page)) page = Number(1);
     //if ((typeof mode !== 'number') || (!mode)) mode = Number(1);
 
