@@ -9,8 +9,11 @@
   "author": "Kim Nerli",
   "license": "MIT",
   "dependencies": {
+    "chai": "^4.2.0",
     "dotenv": "^8.0.0",
     "express": "^4.17.0",
+    "gulp": "^4.0.2",
+    "mocha": "^6.2.0",
     "mongoose": "^5.5.11"
   }
 }
