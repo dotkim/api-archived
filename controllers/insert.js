@@ -1,5 +1,6 @@
 require('dotenv').config();
 const dateString = require('../components/dateString');
+const thumbnail = require('../components/thumbnail');
 
 const Mongo = require('../data/mongo');
 const db = new Mongo();
