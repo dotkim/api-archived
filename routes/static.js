@@ -1,10 +1,11 @@
+'use strict';
 const router = require('express').Router();
-const static = require('../controllers/images.js');
+const images = require('../controllers/images.js');
 const dateString = require('../components/dateString.js');
 
 router.route('/Discord').get(async (req, res) => {
   try {
-    let data = await static(req.originalUrl);
+    let data = await images(req.originalUrl);
 
     // this is to remove the 304 NOT MODIFIED response
     res.setHeader('Cache-Control', 'only-if-cached');
@@ -22,7 +23,7 @@ router.route('/Discord').get(async (req, res) => {
 
 router.route('/thumbnails').get(async (req, res) => {
   try {
-    let data = await static(req.originalUrl);
+    let data = await images(req.originalUrl);
     
     // this is to remove the 304 NOT MODIFIED response
     res.setHeader('Cache-Control', 'only-if-cached');
