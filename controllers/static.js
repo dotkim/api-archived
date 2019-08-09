@@ -1,3 +1,4 @@
+'use strict';
 const dateString = require('../components/dateString.js');
 
 module.exports = function (url) {

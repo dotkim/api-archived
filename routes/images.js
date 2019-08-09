@@ -1,3 +1,4 @@
+'use strict';
 const router = require('express').Router();
 const images = require('../controllers/images.js');
 const dateString = require('../components/dateString.js');

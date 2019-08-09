@@ -1,3 +1,4 @@
+'use strict';
 const router = require('express').Router();
 const insert = require('../controllers/insert.js');
 const dateString = require('../components/dateString.js');
