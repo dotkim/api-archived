@@ -1,4 +1,4 @@
-require('dotenv').config();
+'use strict';
 const dateString = require('../components/dateString.js');
 const Mongo = require('../data/mongo.js');
 
@@ -20,13 +20,18 @@ function createObject(data, page) {
   return obj;
 }
 
-async function images(page) {
+async function images(page, mode) {
   try {
     page = Number(page);
+    mode = Number(mode);
+    console.log('altered:', mode, 'type:', typeof mode);
     if ((typeof page !== 'number') || (!page)) page = Number(1);
+    if ((typeof mode !== 'number') || ((!mode) && (mode != 0))) mode = Number(1);
+    console.log('checked:', mode, 'type:', typeof mode);
+
 
     let qryPage = page - 1;
-    let data = await db.getImages(qryPage);
+    let data = await db.getImages(qryPage, mode);
     if (!data) return { statuscode: 404 };
 
     let obj = createObject(data, page);

@@ -1,10 +1,16 @@
+'use strict';
 const router = require('express').Router();
 const images = require('../controllers/images.js');
 const dateString = require('../components/dateString.js');
+const url = require('url');
+const querystring = require('querystring');
 
 router.route('/').get(async (req, res) => {
   try {
-    let data = await images(req.query.page);
+    let parsedUrl = url.parse(req.url);
+    let parsedQuery = querystring.parse(parsedUrl.query);
+    let data = await images(parsedQuery.page, parsedQuery.filter);
+    
     res.status(data.statuscode);
     if (data.statuscode === 200) res.json(data.content);
     res.end();
