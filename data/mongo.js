@@ -9,7 +9,8 @@ const imageSchema = new Schema({
   'extension': String,
   'url': String,
   'thumbnail': String,
-  'tags': Array
+  'tags': Array,
+  'checksum': String
 }, {
   timestamps: true
 });

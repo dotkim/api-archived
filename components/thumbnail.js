@@ -2,20 +2,14 @@
 // create the image thumbnail
 require('dotenv').config();
 const sharp = require('sharp');
-const fs = require('fs');
+const options = { width: 200, fit: 'inside' };
 
-const path = process.env.FILEPATH;
-const thumbpath = process.env.THUMBPATH;
-let options = { width: 200, fit: 'inside' };
-
-module.exports = async function (name) {
+module.exports = async function (imgBuffer) {
   try {
-    const file = path + name;
-    const thumbfile = thumbpath + name;
-    let thumbnail = await sharp(file).resize(options).toBuffer();
-    fs.writeFileSync(thumbfile, thumbnail);
+    return await sharp(imgBuffer).resize(options).toBuffer();
   }
   catch (error) {
     console.error(error);
+    return;
   }
 }

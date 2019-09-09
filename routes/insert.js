@@ -3,11 +3,11 @@ const router = require('express').Router();
 const insert = require('../controllers/insert.js');
 const dateString = require('../components/dateString.js');
 
-router.route('/:name').post(async (req, res) => {
+router.route('/').post(async (req, res) => {
   try {
-    let data = await insert(req.params.name);
+    let data = await insert(req.body);
     res.status(data.statuscode);
-    if (data.statuscode) res.json(data.inserted);
+    if (data.statuscode == 200) res.json(data.inserted);
     res.end();
   }
   catch (error) {
