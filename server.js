@@ -2,13 +2,25 @@
 require('dotenv').config();
 const http = require('http');
 const express = require('express');
+const basicAuth = require('express-basic-auth');
 const dateString = require('./components/dateString.js');
 const jsonParser = require('body-parser').json({ type: 'application/json' });
+const getUnauthorizedResponse = require('./components/getUnauthorizedResponse.js');
 
 console.log('############### WEB SERVER START UP ###############');
 console.log(dateString(), '- starting http server');
 
 const port = process.env.HTTPPORT || 80;
+const authUser = process.env.AUTH_USER;
+const authPass = process.env.AUTH_PASS;
+
+let basicAuthOptions = {
+  users: {},                                      // we create the user later, so we can keep the user in .env
+  unauthorizedResponse: getUnauthorizedResponse,  // generic 401 error when username/pw is wrong
+  challenge: true                                 // challenge the user to authenticate
+};
+
+basicAuthOptions.users[authUser] = authPass;      // insert the authorization user into the users object.
 
 const app = new express();
 app.disable('x-powered-by');
@@ -28,16 +40,20 @@ app.use(function(req, res, next) {
     let code = res._header ? String(res.statusCode) : String(-1);
     let duration = Date.now() - start;
     let source = req.get('X-Forwarded-For');
-    console.log(dateString(), '-', req.method, req.originalUrl, duration, code, source);
+    if (req.originalUrl === '/insert') {
+      console.log(dateString(), '-', req.method, `${req.originalUrl}/${req.body.name}`, duration, code, source);
+    }
+    else {
+      console.log(dateString(), '-', req.method, req.originalUrl, duration, code, source);
+    }
   });
 
   // Pass to next layer of middleware
   next();
 });
 
-app.use(express.static(process.env.IMGPATHSTATIC, require('./routes/static.js')));
 app.use('/images', require('./routes/images.js'));
-app.use('/insert', require('./routes/insert.js'));
+app.use('/insert', basicAuth(basicAuthOptions), require('./routes/insert.js'));
 
 http.createServer(app).listen(port);
 console.log(dateString(), '- listening on port', port);
