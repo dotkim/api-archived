@@ -24,10 +24,8 @@ async function images(page, mode) {
   try {
     page = Number(page);
     mode = Number(mode);
-    console.log('altered:', mode, 'type:', typeof mode);
     if ((typeof page !== 'number') || (!page)) page = Number(1);
     if ((typeof mode !== 'number') || ((!mode) && (mode != 0))) mode = Number(1);
-    console.log('checked:', mode, 'type:', typeof mode);
 
 
     let qryPage = page - 1;
