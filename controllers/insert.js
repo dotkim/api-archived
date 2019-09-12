@@ -21,8 +21,16 @@ const allowedExt = [
 module.exports = async function (body) {
   try {
     const name = body.name;
-    const imageData = body.imageData;
+
+    // get the base64 image data from the body.
+    // also do a check to see if the data is a number.
+    // this is incase of an exploit by allocating an empty buffer.
+    // https://snyk.io/vuln/npm:ws:20160104
+    let imageData = body.imageData;
+    if (typeof imageData == 'number') return { statuscode: 409 }
+
     const imgBuffer = Buffer.from(imageData, 'base64');
+
     if (!name) return { statuscode: 404 };
     if (!imgBuffer) return { statuscode: 404 };
 
