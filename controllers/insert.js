@@ -64,6 +64,7 @@ module.exports = async function (body) {
 
     let data = await db.addImage(obj);
     if (!data) return { statuscode: 404 };
+    if (data === 'err') return { statuscode: 500 };
 
     return { inserted: data, statuscode: 200 };
   }

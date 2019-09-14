@@ -49,10 +49,11 @@ module.exports = class {
   async addImage(obj) {
     try {
       return await this.images.create(obj);
-    } catch (error) {
+    }
+    catch (error) {
       console.error(dateString(), '- got error');
       console.error(error);
-      return;
+      return 'err';
     }
   }
 
@@ -105,10 +106,11 @@ module.exports = class {
         images: imgs,
         limit: limit
       };
-    } catch (error) {
+    }
+    catch (error) {
       console.error(dateString(), '- got error');
       console.error(error);
-      return;
+      return 'err';
     }
   }
 
@@ -122,7 +124,7 @@ module.exports = class {
     catch (error) {
       console.error(dateString(), '- got error');
       console.error(error);
-      return;
+      return 'err';
     }
   }
 
@@ -138,7 +140,7 @@ module.exports = class {
     catch (error) {
       console.error(dateString(), '- got error');
       console.error(error);
-      return;
+      return 'err';
     }
   }
 }

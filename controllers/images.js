@@ -27,10 +27,10 @@ async function images(page, mode) {
     if ((typeof page !== 'number') || (!page)) page = Number(1);
     if ((typeof mode !== 'number') || ((!mode) && (mode != 0))) mode = Number(1);
 
-
     let qryPage = page - 1;
     let data = await db.getImages(qryPage, mode);
     if (!data) return { statuscode: 404 };
+    if (data === 'err') return { statuscode: 500 };
 
     let obj = createObject(data, page);
 
