@@ -2,3 +2,7 @@
 node_modules/
 .env
 test.js
+*.pem
+*.csr
+*.key
+*.crt

@@ -1,13 +1,21 @@
 'use strict';
 require('dotenv').config();
 const dateString = require('./components/dateString.js');
-const http = require('http');
+const https = require('https');
+const fs = require('fs');
 const app = require('./app');
 
 console.log('############### WEB SERVER START UP ###############');
 console.log(dateString(), '- starting http server');
 
-const port = process.env.HTTPPORT || 80;
+const httpsCert = process.env.HTTPS_CERT;        // gets the path for the certificate
+const httpsKey = process.env.HTTPS_KEY;          // gets the path for the key
+const httpsPort = process.env.HTTPS_PORT || 443;  // check if the port is set in .env, if not just use default.
 
-http.createServer(app).listen(port);
-console.log(dateString(), '- listening on port', port);
+const options = {
+  key: fs.readFileSync(httpsKey),
+  cert: fs.readFileSync(httpsCert)
+};
+
+https.createServer(options, app).listen(httpsPort);
+console.log(dateString(), '- listening on port', httpsPort);
