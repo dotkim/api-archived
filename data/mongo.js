@@ -135,7 +135,8 @@ module.exports = class {
           { 'keyword': word },
           { $push: { 'values': newMessage } },
           { upsert: true, new: true }
-        );
+        )
+        .select("-_id -__v");
     }
     catch (error) {
       console.error(dateString(), '- got error');
