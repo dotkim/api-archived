@@ -1,6 +1,8 @@
 'use strict';
 const express = require('express');
-const jsonParser = require('body-parser').json({ type: 'application/json' });
+const jsonParser = require('body-parser').json({
+  type: 'application/json', extended: true, limit: '50mb'
+});
 const authentication = require('./security/authentication');
 const headers = require('./middleware/headers');
 const logging = require('./middleware/logging');
