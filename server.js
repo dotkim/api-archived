@@ -7,11 +7,12 @@ const app = require('./app');
 console.log('############### WEB SERVER START UP ###############');
 console.log(dateString(), '- starting http server');
 
-if (process.env.USE_HTTPS === "false") {
+if (process.env.USE_HTTPS == "false") {
   const http = require('http');
   const httpPort = process.env.HTTP_PORT;
 
   http.createServer(app).listen(httpPort);
+  console.log(dateString(), '- listening on port', httpPort);
 }
 else {
   const https = require('https');
@@ -25,6 +26,5 @@ else {
   };
   
   https.createServer(options, app).listen(httpsPort);
+  console.log(dateString(), '- listening on port', httpsPort);
 }
-
-console.log(dateString(), '- listening on port', httpsPort);
