@@ -8,9 +8,9 @@ const app = require('./app');
 console.log('############### WEB SERVER START UP ###############');
 console.log(dateString(), '- starting http server');
 
-const httpsCert = process.env.HTTPS_CERT;        // gets the path for the certificate
-const httpsKey = process.env.HTTPS_KEY;          // gets the path for the key
-const httpsPort = process.env.HTTPS_PORT || 443;  // check if the port is set in .env, if not just use default.
+const httpsCert = process.env.HTTPS_CERT;
+const httpsKey = process.env.HTTPS_KEY;
+const httpsPort = process.env.HTTPS_PORT || 443;
 
 const options = {
   key: fs.readFileSync(httpsKey),
