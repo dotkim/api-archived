@@ -1,5 +1,4 @@
 'use strict';
-require('dotenv').config();
 const express = require('express');
 const jsonParser = require('body-parser').json({ type: 'application/json' });
 const authentication = require('./security/authentication');

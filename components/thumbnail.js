@@ -1,6 +1,5 @@
 'use strict';
 // create the image thumbnail
-require('dotenv').config();
 const sharp = require('sharp');
 const options = { width: 200, fit: 'inside' };
 
