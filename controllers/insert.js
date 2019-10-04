@@ -46,7 +46,7 @@ module.exports = async function (body) {
 
     let path = imgPath.slice(-1) == '/' ? imgPath : imgPath + '/';
 
-    const fullImage = fileHandler(path + 'images/' + name, imgBuffer);
+    const fullImage = fileHandler(path + 'i/' + name, imgBuffer);
     if (!fullImage) return { statuscode: 500 };
 
     const thumbIamge = fileHandler(path + 'thumbnails/' + name, thumbBuffer);
