@@ -56,7 +56,7 @@ module.exports = async function (body) {
       fileName: name,
       contentType: 'image/' + extension,
       extension: extension,
-      url: '/' + name,
+      url: 'i/' + name,
       thumbnail: 'thumbnails/' + name,
       tags: [ 'tagme' ],
       checksum: checksum
