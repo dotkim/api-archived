@@ -1,7 +1,6 @@
 {
   "name": "images-api",
-  "version": "1.4.3",
-  "description": "",
+  "version": "1.0.0",
   "main": "server.js",
   "scripts": {
     "test": "gulp"
