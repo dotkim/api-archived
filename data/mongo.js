@@ -1,5 +1,5 @@
 'use strict';
-require('dotenv').config();
+const config = require('../data/configuration');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const dateString = require('../components/dateString.js');
@@ -24,7 +24,7 @@ const keywordSchema = new Schema({
 module.exports = class {
   constructor() {
     this.conn = mongoose.connect(
-      process.env.MONGOOSE_MONGOURI, {
+      config.mongooseUri, {
       useNewUrlParser: true,
       // use this to remove the warning:
       // DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
@@ -34,7 +34,7 @@ module.exports = class {
       useFindAndModify: false,
       //user: process.env.MONGOOSE_USERNAME,
       //pass: process.env.MONGOOSE_PASSWORD,
-      dbName: process.env.MONGOOSE_DBNAME
+      dbName: config.mongooseDbname
     },
       function (err) {
         if (err) console.error('Failed to connect to mongo', err); // this might be changed to do some better errorhandling later...
@@ -65,7 +65,7 @@ module.exports = class {
   async getImages(page, mode) {
     try {
       let skip = 0;
-      let limit = Number(process.env.MAXIMAGEAMOUNT);
+      let limit = Number(config.maxImageAmount);
       if (page !== 0) skip = limit * page;
 
       let imgs;
