@@ -1,5 +1,5 @@
 'use strict';
-require('dotenv').config();
+const config = require('../data/configuration');
 const dateString = require('../components/dateString');
 const thumbnail = require('../components/thumbnail');
 const fileHandler = require('../data/fileHandler');
@@ -8,7 +8,8 @@ const md5 = require('md5');
 const Mongo = require('../data/mongo');
 const db = new Mongo();
 
-const imgPath = process.env.IMGPATH;
+const imgPath = config.imgPath;
+const thumbPath = config.thumbPath;
 
 const allowedExt = [
   'png',
@@ -45,11 +46,12 @@ module.exports = async function (body) {
     if (!checksum) return { statuscode: 500 };
 
     let path = imgPath.slice(-1) == '/' ? imgPath : imgPath + '/';
+    let tpath = thumbPath.slice(-1) == '/' ? thumbPath : thumbPath + '/';
 
-    const fullImage = fileHandler(path + 'i/' + name, imgBuffer);
+    const fullImage = fileHandler(path + name, imgBuffer);
     if (!fullImage) return { statuscode: 500 };
 
-    const thumbIamge = fileHandler(path + 'thumbnails/' + name, thumbBuffer);
+    const thumbIamge = fileHandler(tpath + name, thumbBuffer);
     if (!thumbIamge) return { statuscode: 500 };
 
     let obj = {

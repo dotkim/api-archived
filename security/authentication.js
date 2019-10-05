@@ -1,9 +1,9 @@
-require('dotenv').config();
+const config = require('../data/configuration');
 const basicAuth = require('express-basic-auth');
 const getUnauthorizedResponse = require('./getUnauthorizedResponse');
 
-const authUser = process.env.AUTH_USER;
-const authPass = process.env.AUTH_PASS;
+const authUser = config.authUser;
+const authPass = config.authPass;
 
 let basicAuthOptions = {
   users: {},

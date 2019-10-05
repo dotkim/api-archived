@@ -1,5 +1,5 @@
 'use strict';
-require('dotenv').config();
+const config = require('./data/configuration');
 const dateString = require('./components/dateString.js');
 const fs = require('fs');
 const app = require('./app');
@@ -7,18 +7,18 @@ const app = require('./app');
 console.log('############### WEB SERVER START UP ###############');
 console.log(dateString(), '- starting http server');
 
-if (process.env.USE_HTTPS == "false") {
+if (config.useHttps == "false") {
   const http = require('http');
-  const httpPort = process.env.HTTP_PORT;
+  const httpPort = config.httpPort;
 
   http.createServer(app).listen(httpPort);
   console.log(dateString(), '- listening on port', httpPort);
 }
 else {
   const https = require('https');
-  const httpsCert = process.env.HTTPS_CERT;
-  const httpsKey = process.env.HTTPS_KEY;
-  const httpsPort = process.env.HTTPS_PORT || 443;
+  const httpsCert = config.httpsCert;
+  const httpsKey = config.httpsKey;
+  const httpsPort = config.httpsPort || 443;
   
   const options = {
     key: fs.readFileSync(httpsKey),
