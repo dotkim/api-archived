@@ -144,4 +144,20 @@ module.exports = class {
       return 'err';
     }
   }
+
+  async randomImage() {
+    try {
+      const count = await this.images.countDocuments();
+      const random = Math.floor(Math.random() * count);
+
+      return await this.images
+        .findOne()
+        .skip(random);
+    }
+    catch (error) {
+      console.error(dateString(), '- got error');
+      console.error(error);
+      return 'err';
+    }
+  }
 }
