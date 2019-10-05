@@ -3,18 +3,18 @@ require('dotenv').config();
 function Config() {
   this.config = {};
 
-  this.config.mongooseUri = process.env.MONGOOSE_MONGOURI;
-  this.config.mongooseDbname = process.env.MONGOOSE_DBNAME;
-  this.config.mongooseUsername = process.env.MONGOOSE_USERNAME;
-  this.config.mongoosePassword = process.env.MONGOOSE_PASSWORD;
-  
-  this.config.maxImageAmount = process.env.MAXIMAGEAMOUNT;
-  
-  this.config.useHttps = process.env.USE_HTTPS;
-  this.config.httpPort = process.env.HTTP_PORT;
-  this.config.httpsPort = process.env.HTTPS_PORT;
+  this.config.mongooseUri = process.env.MONGOOSE_MONGOURI || 'mongodb://localhost:27017';
+  this.config.mongooseDbname = process.env.MONGOOSE_DBNAME || 'Default';
+  this.config.mongooseUsername = process.env.MONGOOSE_USERNAME || 'user';
+  this.config.mongoosePassword = process.env.MONGOOSE_PASSWORD || 'pass';
+
+  this.config.maxImageAmount = process.env.MAXIMAGEAMOUNT || '30';
+
+  this.config.useHttps = process.env.USE_HTTPS || 'false';
+  this.config.httpPort = process.env.HTTP_PORT || '8080';
+  this.config.httpsPort = process.env.HTTPS_PORT || '8443';
   this.config.httpsCert = process.env.HTTPS_CERT;
-  this.config.httpsKey = process.env.HTTPS_KEY;
+  this.config.httpsKey = process.env.HTTPS_KEY; 
 
   this.config.imgPath = process.env.IMGPATH;
   this.config.thumbPath = process.env.THUMBPATH;
