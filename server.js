@@ -18,7 +18,7 @@ else {
   const https = require('https');
   const httpsCert = config.httpsCert;
   const httpsKey = config.httpsKey;
-  const httpsPort = config.httpsPort || 443;
+  const httpsPort = config.httpsPort;
   
   const options = {
     key: fs.readFileSync(httpsKey),

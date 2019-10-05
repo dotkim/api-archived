@@ -18,5 +18,6 @@ app.use(logging);
 app.use('/images', require('./routes/images'));
 app.use('/insert', authentication(), require('./routes/insert'));
 app.use('/keyword', authentication(), require('./routes/keywords'));
+app.use('/triggers', require('./routes/triggers'));
 
 module.exports = app;
