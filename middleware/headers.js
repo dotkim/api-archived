@@ -1,9 +1,30 @@
-module.exports = function(req, res, next) {
+const config = require('../data/configuration');
 
-  res.setHeader('Access-Control-Allow-Origin', '*');          // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST'); // Request methods you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', '*');         // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Credentials', false);   // Set to true if you need the website to include cookies
+module.exports = function (req, res, next) {
+
+  // Website you wish to allow to connect
+  res.setHeader(
+    'Access-Control-Allow-Origin',
+    config.accessControlOrigin
+  );
+
+  // Request methods you wish to allow
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    config.accessControlMethods
+  );
+
+  // Request headers you wish to allow
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    config.accessControlHeaders
+  );
+
+  // Set to true if you need the website to include cookies
+  res.setHeader(
+    'Access-Control-Allow-Credentials',
+    config.accessControlCredentials
+  );
 
   next();
 }

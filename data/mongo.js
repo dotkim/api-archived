@@ -21,6 +21,10 @@ const keywordSchema = new Schema({
   'values': Array
 });
 
+const triggerSchema = new Schema({
+  'form': Object
+});
+
 module.exports = class {
   constructor() {
     this.conn = mongoose.connect(
@@ -43,6 +47,7 @@ module.exports = class {
 
     this.images = mongoose.model('image', imageSchema);
     this.keywords = mongoose.model('keyword', keywordSchema);
+    this.triggers = mongoose.model('trigger', triggerSchema);
   }
 
   // this function takes an object in the form of the Schema
@@ -153,6 +158,17 @@ module.exports = class {
       return await this.images
         .findOne()
         .skip(random);
+    }
+    catch (error) {
+      console.error(dateString(), '- got error');
+      console.error(error);
+      return 'err';
+    }
+  }
+
+  async addTriggerEvent(obj) {
+    try {
+      return await this.triggers.create({ form: obj });
     }
     catch (error) {
       console.error(dateString(), '- got error');
