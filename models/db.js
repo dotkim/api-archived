@@ -1,5 +1,5 @@
 'use strict';
-const config = require('../data/configuration');
+const config = require('./configuration');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const dateString = require('../components/dateString.js');

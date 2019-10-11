@@ -1,11 +1,11 @@
 'use strict';
-const config = require('../data/configuration');
+const config = require('../models/configuration');
 const dateString = require('../components/dateString');
 const thumbnail = require('../components/thumbnail');
-const fileHandler = require('../data/fileHandler');
+const fileHandler = require('../models/fileHandler');
 const md5 = require('md5');
 
-const Mongo = require('../data/mongo');
+const Mongo = require('../models/db');
 const db = new Mongo();
 
 const imgPath = config.imgPath;

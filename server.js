@@ -1,5 +1,5 @@
 'use strict';
-const config = require('./data/configuration');
+const config = require('./models/configuration');
 const dateString = require('./components/dateString.js');
 const fs = require('fs');
 const app = require('./app');

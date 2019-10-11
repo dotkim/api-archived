@@ -1,4 +1,4 @@
-const config = require('../data/configuration');
+const config = require('../models/configuration');
 const basicAuth = require('express-basic-auth');
 const getUnauthorizedResponse = require('./getUnauthorizedResponse');
 

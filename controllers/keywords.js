@@ -1,6 +1,6 @@
 'use strict';
 const dateString = require('../components/dateString.js');
-const Mongo = require('../data/mongo.js');
+const Mongo = require('../models/db');
 
 const db = new Mongo();
 

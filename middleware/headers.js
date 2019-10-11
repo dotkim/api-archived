@@ -1,4 +1,4 @@
-const config = require('../data/configuration');
+const config = require('../models/configuration');
 
 module.exports = function (req, res, next) {
 
