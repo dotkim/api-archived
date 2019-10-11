@@ -2,9 +2,12 @@
 const config = require('./configuration');
 const mongoose = require('mongoose');
 const dateString = require('../components/dateString.js');
+
+// import models
 const image = require('./image')(mongoose);
 const keyword = require('./keyword')(mongoose);
 const trigger = require('./trigger')(mongoose);
+const video = require('./video')(mongoose);
 
 module.exports = class {
   constructor() {
@@ -29,6 +32,7 @@ module.exports = class {
     this.images = image;
     this.keywords = keyword;
     this.triggers = trigger;
+    this.videos = video;
   }
 
   // this function takes an object in the form of the Schema
@@ -150,6 +154,85 @@ module.exports = class {
   async addTriggerEvent(obj) {
     try {
       return await this.triggers.create({ form: obj });
+    }
+    catch (error) {
+      console.error(dateString(), '- got error');
+      console.error(error);
+      return 'err';
+    }
+  }
+
+  async addVideo(obj) {
+    try {
+      return await this.videos.create(obj);
+    }
+    catch (error) {
+      console.error(dateString(), '- got error');
+      console.error(error);
+      return 'err';
+    }
+  }
+  
+  async getVideos(page, mode) {
+    try {
+      let skip = 0;
+      let limit = Number(config.maxVideoAmount);
+      if (page !== 0) skip = limit * page;
+
+      let vids;
+      let videoCount;
+
+      if (mode === 0) {
+        vids = await this.videos
+          .find()
+          .select("-_id -__v")
+          .skip(skip)
+          .sort({
+            createdAt: -1
+          })
+          .limit(limit);
+          videoCount = await this.videos.countDocuments();
+      } else if (mode === 1) {
+        vids = await this.videos
+          .find({
+            'tags': {
+              $nin: ['tagme']
+            }
+          })
+          .select("-_id -__v")
+          .skip(skip)
+          .sort({
+            createdAt: -1
+          })
+          .limit(limit);
+          videoCount = await this.videos.countDocuments({
+          'tags': {
+            $nin: ['tagme']
+          }
+        });
+      }
+
+      return {
+        videoCount: videoCount,
+        videos: vids,
+        limit: limit
+      };
+    }
+    catch (error) {
+      console.error(dateString(), '- got error');
+      console.error(error);
+      return 'err';
+    }
+  }
+
+  async randomVideo() {
+    try {
+      const count = await this.videos.countDocuments();
+      const random = Math.floor(Math.random() * count);
+
+      return await this.videos
+        .findOne()
+        .skip(random);
     }
     catch (error) {
       console.error(dateString(), '- got error');
