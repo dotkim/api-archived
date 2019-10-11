@@ -1,7 +1,7 @@
 'use strict';
 const router = require('express').Router();
-const triggers = require('../controllers/triggers.js');
-const dateString = require('../components/dateString.js');
+const triggers = require('../controllers/triggers');
+const dateString = require('../components/dateString');
 
 router.route('/').post(async (req, res) => {
   try {

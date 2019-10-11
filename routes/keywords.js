@@ -1,7 +1,7 @@
 'use strict';
 const router = require('express').Router();
-const keywordController = require('../controllers/keywords.js');
-const dateString = require('../components/dateString.js');
+const keywordController = require('../controllers/keywords');
+const dateString = require('../components/dateString');
 const keyword = new keywordController();
 
 router.route('/:word').get(async (req, res) => {

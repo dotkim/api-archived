@@ -1,7 +1,7 @@
 'use strict';
 const router = require('express').Router();
-const Images = require('../controllers/images.js');
-const dateString = require('../components/dateString.js');
+const Images = require('../controllers/images');
+const dateString = require('../components/dateString');
 const url = require('url');
 const querystring = require('querystring');
 
