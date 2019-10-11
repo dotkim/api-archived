@@ -1,29 +1,10 @@
 'use strict';
 const config = require('./configuration');
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 const dateString = require('../components/dateString.js');
-
-const imageSchema = new Schema({
-  'fileName': String,
-  'contentType': String,
-  'extension': String,
-  'url': String,
-  'thumbnail': String,
-  'tags': Array,
-  'checksum': String
-}, {
-  timestamps: true
-});
-
-const keywordSchema = new Schema({
-  'keyword': String,
-  'values': Array
-});
-
-const triggerSchema = new Schema({
-  'form': Object
-});
+const image = require('./image')(mongoose);
+const keyword = require('./keyword')(mongoose);
+const trigger = require('./trigger')(mongoose);
 
 module.exports = class {
   constructor() {
@@ -45,9 +26,9 @@ module.exports = class {
       }
     );
 
-    this.images = mongoose.model('image', imageSchema);
-    this.keywords = mongoose.model('keyword', keywordSchema);
-    this.triggers = mongoose.model('trigger', triggerSchema);
+    this.images = image;
+    this.keywords = keyword;
+    this.triggers = trigger;
   }
 
   // this function takes an object in the form of the Schema
