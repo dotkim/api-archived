@@ -124,10 +124,10 @@ module.exports = class {
 
   async getKeyword(word) {
     try {
-      let message = await this.keywords
+      let keyword = await this.keywords
         .find({ 'keyword': word })
         .select("-_id -__v");
-      return { 'message': message };
+      return keyword[0];
     }
     catch (error) {
       console.error(dateString(), '- got error');
