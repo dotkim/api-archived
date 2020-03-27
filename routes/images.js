@@ -12,7 +12,7 @@ router.route('/').get(async (req, res) => {
   try {
     let parsedUrl = url.parse(req.url);
     let parsedQuery = querystring.parse(parsedUrl.query);
-    let data = await images.getPage(parsedQuery.page, parsedQuery.filter);
+    let data = await images.getImagePage(parsedQuery.page, parsedQuery.filter);
     
     res.status(data.statuscode);
     if (data.statuscode === 200) res.json(data.content);
