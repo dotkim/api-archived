@@ -9,7 +9,7 @@ const dateString = require('../components/dateString.js');
 const fileHandler = require('../storage/fileHandler');
 
 const { imgPath, thumbPath } = config;
-const allowedExt = config.allowedImageExtensions;
+const allowedExt = config.allowedImageExtensions.split(',');
 
 const db = new Mongo();
 

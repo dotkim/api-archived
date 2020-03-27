@@ -11,7 +11,7 @@ class Configuration {
     this.config.mongoosePassword = process.env.MONGOOSE_PASSWORD || 'pass';
 
     this.config.maxImageAmount = process.env.MAXIMAGEAMOUNT || '30';
-    this.config.allowedImageExtensions = process.env.ALLOWEDIMAGEEXTENSIONS || [];
+    this.config.allowedImageExtensions = process.env.ALLOWEDIMAGEEXTENSIONS;
 
     this.config.useHttps = process.env.USE_HTTPS || 'false';
     this.config.httpPort = process.env.HTTP_PORT || '8080';
