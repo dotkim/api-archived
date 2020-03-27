@@ -1,6 +1,7 @@
+/*eslint-disable no-console*/
 'use strict';
 const dateString = require('../components/dateString.js');
-const Mongo = require('../models/db');
+const Mongo = require('../storage/db');
 
 const db = new Mongo();
 
@@ -13,9 +14,11 @@ module.exports = class {
       if (data === 'err') return { statuscode: 500 };
       if (data.message.length <= 0) return { statuscode: 404 };
 
-      return { content: data, statuscode: 200 };
-    }
-    catch (error) {
+      return {
+        content: data,
+        statuscode: 200
+      };
+    } catch (error) {
       console.error(dateString(), '- got error');
       console.error(error);
       return { statuscode: 500 };
@@ -31,9 +34,11 @@ module.exports = class {
       if (!data) return { statuscode: 404 };
       if (data === 'err') return { statuscode: 500 };
       
-      return { content: data, statuscode: 200 };
-    }
-    catch (error) {
+      return {
+        content: data,
+        statuscode: 200
+      };
+    } catch (error) {
       console.error(dateString(), '- got error');
       console.error(error);
       return { statuscode: 500 };

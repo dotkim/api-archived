@@ -1,3 +1,4 @@
+/*eslint-disable no-console*/
 'use strict';
 const router = require('express').Router();
 const triggers = require('../controllers/triggers');
@@ -9,8 +10,7 @@ router.route('/').post(async (req, res) => {
     res.status(data.statuscode);
     if (data.statuscode == 200) res.json(data.inserted);
     res.end();
-  }
-  catch (error) {
+  } catch (error) {
     console.error(dateString(), '- got error');
     console.error(error);
     res.sendStatus(500);

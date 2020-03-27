@@ -1,9 +1,8 @@
-module.exports = function (mongoose) {
-  const Schema = mongoose.Schema;
+'use strict';
+const { Schema } = require('mongoose');
   const keywordSchema = new Schema({
     'keyword': String,
     'values': Array
   });
 
-  return mongoose.model('keyword', keywordSchema);
-}
+  module.exports = keywordSchema;

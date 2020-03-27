@@ -1,3 +1,4 @@
+/*eslint-disable no-console*/
 'use strict';
 const config = require('./models/configuration');
 const dateString = require('./components/dateString.js');
@@ -7,21 +8,21 @@ const app = require('./app');
 console.log('############### WEB SERVER START UP ###############');
 console.log(dateString(), '- starting http server');
 
-if (config.useHttps == "false") {
+if (config.useHttps == 'false') {
   const http = require('http');
-  const httpPort = config.httpPort;
+  const { httpPort } = config;
 
   http.createServer(app).listen(httpPort);
   console.log(dateString(), '- listening on port', httpPort);
-}
-else {
+} else {
   const https = require('https');
-  const httpsCert = config.httpsCert;
-  const httpsKey = config.httpsKey;
-  const httpsPort = config.httpsPort;
+  const { httpsCert, httpsKey, httpsPort } = config;
   
+  //No-sync disabled, these should be the only synchronous methods called.
   const options = {
+    //eslint-disable-next-line no-sync
     key: fs.readFileSync(httpsKey),
+    //eslint-disable-next-line no-sync
     cert: fs.readFileSync(httpsCert)
   };
   

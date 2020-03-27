@@ -1,8 +1,7 @@
-module.exports = function(mongoose) {
-  const Schema = mongoose.Schema;
-  const triggerSchema = new Schema({
-    'form': Object
-  });
+'use strict';
+const { Schema } = require('mongoose');
+const triggerSchema = new Schema({
+  'form': Object
+});
 
-  return mongoose.model('trigger', triggerSchema);
-}
+module.exports = triggerSchema;

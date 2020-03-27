@@ -1,6 +1,7 @@
 {
-  "name": "images-api",
-  "version": "1.0.0",
+  "name": "api",
+  "description": "API for Keywords, Images, Videos and Audio files.",
+  "version": "2.0.0",
   "main": "server.js",
   "scripts": {
     "test": "gulp"
@@ -12,7 +13,15 @@
     "express": "^4.17.1",
     "express-basic-auth": "^1.2.0",
     "md5": "^2.2.1",
-    "mongoose": "^5.7.7",
-    "sharp": "^0.22.1"
+    "mongoose": "^5.9.6",
+    "sharp": "^0.25.2"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
   }
 }

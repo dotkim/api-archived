@@ -1,3 +1,4 @@
+/*eslint-disable no-console*/
 'use strict';
 const router = require('express').Router();
 const Videos = require('../controllers/videos');
@@ -16,8 +17,7 @@ router.route('/').get(async (req, res) => {
     res.status(data.statuscode);
     if (data.statuscode === 200) res.json(data.content);
     res.end();
-  }
-  catch (error) {
+  } catch (error) {
     console.error(dateString(), '- got error');
     console.error(error);
     res.sendStatus(500);
@@ -31,8 +31,7 @@ router.route('/getRandom').get(async (req, res) => {
     res.status(data.statuscode);
     if (data.statuscode === 200) res.json(data.content);
     res.end();
-  }
-  catch (error) {
+  } catch (error) {
     console.error(dateString(), '- got error');
     console.error(error);
     res.sendStatus(500);

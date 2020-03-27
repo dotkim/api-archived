@@ -1,3 +1,4 @@
+/*eslint-disable no-console*/
 'use strict';
 const router = require('express').Router();
 const keywordController = require('../controllers/keywords');
@@ -10,21 +11,21 @@ router.route('/:word').get(async (req, res) => {
     res.status(data.statuscode);
     if (data.statuscode === 200) res.json(data.content);
     res.end();
-  }
-  catch (error) {
+  } catch (error) {
     console.error(dateString(), '- got error');
     console.error(error);
     res.sendStatus(500);
   }
-}).post(async (req, res) => {
+});
+
+router.route('/:word').post(async (req, res) => {
   try {
     let data = await keyword.addKeyword(req.params.word, req.body.message);
     
     res.status(data.statuscode);
     if (data.statuscode === 200) res.json(data.content);
     res.end();
-  }
-  catch (error) {
+  } catch (error) {
     console.error(dateString(), '- got error');
     console.error(error);
     res.sendStatus(500);

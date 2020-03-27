@@ -1,7 +1,8 @@
+/*eslint-disable no-console*/
 'use strict';
 const config = require('../models/configuration');
 const dateString = require('../components/dateString.js');
-const Mongo = require('../models/db');
+const Mongo = require('../storage/db');
 
 const db = new Mongo();
 
@@ -9,9 +10,13 @@ class Videos {
   createObject(data, page) {
     let count = Math.ceil(Number(data.videoCount) / data.limit);
     let obj = {
+      //eslint-disable-next-line camelcase
       current_page: page,
+      //eslint-disable-next-line camelcase
       number_of_pages: count,
+      //eslint-disable-next-line no-undefined
       next: undefined,
+      //eslint-disable-next-line no-undefined
       previous: undefined,
       videos: data.videos
     };
@@ -24,21 +29,24 @@ class Videos {
 
   async getVideos(page, mode) {
     try {
-      page = Number(page);
-      mode = Number(mode);
-      if ((typeof page !== 'number') || (!page)) page = Number(1);
-      if ((typeof mode !== 'number') || ((!mode) && (mode != 0))) mode = Number(1);
+      let videoPage = Number(page);
+      let videoMode = Number(mode);
+      if (typeof videoPage !== 'number' || !videoPage) videoPage = Number(1);
+      //eslint-disable-next-line no-extra-parens
+      if (typeof videoMode !== 'number' || (!videoMode && videoMode != 0)) videoMode = Number(1);
   
-      let qryPage = page - 1;
-      let data = await db.getVideos(qryPage, mode);
+      let qryPage = videoPage - 1;
+      let data = await db.getVideos(qryPage, videoMode);
       if (!data) return { statuscode: 404 };
       if (data === 'err') return { statuscode: 500 };
   
-      let obj = this.createObject(data, page);
+      let obj = this.createObject(data, videoPage);
   
-      return { content: obj, statuscode: 200 };
-    }
-    catch (error) {
+      return {
+        content: obj,
+        statuscode: 200
+      };
+    } catch (error) {
       console.error(dateString(), '- got error');
       console.error(error);
       return { statuscode: 500 };
@@ -54,9 +62,11 @@ class Videos {
       data.url = config.videoPage + data.url;
       data.thumbnail = config.videoPage + data.thumbnail;
 
-      return { content: data, statuscode: 200 };
-    }
-    catch (error) {
+      return {
+        content: data,
+        statuscode: 200
+      };
+    } catch (error) {
       console.error(dateString(), '- got error');
       console.error(error);
       return { statuscode: 500 };
