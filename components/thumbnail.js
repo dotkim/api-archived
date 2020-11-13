@@ -1,14 +1,17 @@
+/*eslint-disable no-console*/
 'use strict';
-// create the image thumbnail
 const sharp = require('sharp');
-const options = { width: 200, fit: 'inside' };
+const options = {
+  width: 200,
+  fit: 'inside'
+};
 
-module.exports = async function (imgBuffer) {
+module.exports = async (imgBuffer) => {
   try {
-    return await sharp(imgBuffer).resize(options).toBuffer();
-  }
-  catch (error) {
+    return await sharp(imgBuffer).
+      resize(options).
+      toBuffer();
+  } catch (error) {
     console.error(error);
-    return;
   }
 }
