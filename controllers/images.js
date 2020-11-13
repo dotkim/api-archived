@@ -8,6 +8,8 @@ const thumbnail = require('../components/thumbnail');
 const dateString = require('../components/dateString.js');
 const fileHandler = require('../storage/fileHandler');
 
+const getSiteContent = require('../components/getSiteContent');
+
 const { imgPath, thumbPath } = config;
 const allowedExt = config.allowedImageExtensions.split(',');
 
@@ -70,6 +72,28 @@ class Images {
 
       return {
         content: data,
+        statuscode: 200
+      };
+    } catch (error) {
+      console.error(dateString(), '- got error');
+      console.error(error);
+      return { statuscode: 500 };
+    }
+  }
+  
+  async getRandomV2() {
+    try {
+      let data = await db.randomImage();
+      if (!data) return { statuscode: 404 };
+      if (data === 'err') return { statuscode: 500 };
+
+      data.url = config.imagePage + data.url;
+      let imageContent = await getSiteContent(data.url);
+      let imagebuffer = Buffer.from(imageContent, 'base64');
+
+      return {
+        content: imagebuffer,
+        contentType: data.contentType,
         statuscode: 200
       };
     } catch (error) {
