@@ -12,7 +12,7 @@ module.exports = class {
 
       if (!data) return { statuscode: 500 };
       if (data === 'err') return { statuscode: 500 };
-      if (data.message.length <= 0) return { statuscode: 404 };
+      if (data.values.length <= 0) return { statuscode: 404 };
 
       return {
         content: data,
