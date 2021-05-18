@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\api.ServiceInterface\api.ServiceInterface.csproj" />
-    <ProjectReference Include="..\api.ServiceModel\api.ServiceModel.csproj" />
+    <ProjectReference Include="..\Api.ServiceInterface\Api.ServiceInterface.csproj" />
+    <ProjectReference Include="..\Api.ServiceModel\Api.ServiceModel.csproj" />
 
     <PackageReference Include="NUnit" Version="3.12.*" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.*" />
