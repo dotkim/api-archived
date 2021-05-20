@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -9,8 +8,10 @@ using Api.ServiceInterface;
 using Funq;
 using MongoDB.Entities;
 using ServiceStack;
+using ServiceStack.Configuration;
 using ServiceStack.Logging;
 using ServiceStack.Logging.Serilog;
+using System.Net;
 
 namespace Api
 {
@@ -18,11 +19,23 @@ namespace Api
   {
     public static void Main(string[] args)
     {
+      IAppSettings appSettings = new AppSettings();
+
       var host = new WebHostBuilder()
-          .UseKestrel()
+          .UseKestrel(options =>
+          {
+            options.Listen(IPAddress.Loopback, 8080);
+            if (appSettings.Exists("UseHTTPS"))
+            {
+              options.Listen(IPAddress.Loopback, 8443, listenOptions =>
+              {
+                listenOptions.UseHttps(appSettings.Get<string>("CertificatePath"),
+                  appSettings.Get<string>("CertificateSecret"));
+              });
+            }
+          })
           .UseContentRoot(Directory.GetCurrentDirectory())
           .UseModularStartup<Startup>()
-          .UseUrls(Environment.GetEnvironmentVariable("ASPNETCORE_URLS") ?? "http://localhost:5000/")
           .Build();
 
       host.Run();
@@ -64,10 +77,7 @@ namespace Api
 
     public override void Configure(Container container)
     {
-      Plugins.Add(new CorsFeature(
-        allowedMethods: "GET, POST",
-        allowCredentials: true,
-        allowedHeaders: "Content-Type, Allow, Authorization"));
+      IAppSettings appSettings = new AppSettings();
 
       // Set Global AppHost Configuration
       base.SetConfig(new HostConfig
@@ -79,8 +89,8 @@ namespace Api
 
       Task.Run(async () =>
             {
-              await DB.InitAsync("chatbot", "localhost");
-              //await DB.MigrateAsync();
+              await DB.InitAsync(appSettings.Get<string>("MongoDatabase", "chatbot"),
+                appSettings.Get<string>("MongoHost", "localhost"));
             })
             .GetAwaiter()
             .GetResult();

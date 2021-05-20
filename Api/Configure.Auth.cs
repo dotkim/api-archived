@@ -1,9 +1,8 @@
-using System.Collections.Specialized;
-using System.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Caching;
+using ServiceStack.Configuration;
 
 namespace Api
 {
@@ -14,7 +13,6 @@ namespace Api
 
   public class ConfigureAuth : IConfigureAppHost, IConfigureServices
   {
-    private NameValueCollection _config;
     public void Configure(IServiceCollection services)
     {
       services.AddSingleton<ICacheClient>(new MemoryCacheClient()); //Store User Sessions in Memory Cache (default)
@@ -25,26 +23,25 @@ namespace Api
 
     public void Configure(IAppHost appHost)
     {
-      _config = ConfigurationManager.AppSettings;
-      var AppSettings = appHost.AppSettings;
+      IAppSettings appSettings = new AppSettings();
 
       appHost.Plugins.Add(new AuthFeature(() => new CustomUserSession(),
         new IAuthProvider[] {
-          new BasicAuthProvider(AppSettings)
+          new BasicAuthProvider(appSettings)
         })
       {
         IncludeAssignRoleServices = false,
         IncludeRegistrationService = false,
-        MaxLoginAttempts = AppSettings.Get("MaxLoginAttempts", 5)
+        MaxLoginAttempts = appSettings.Get<int>("MaxLoginAttempts", 5)
       });
 
       var repo = HostContext.AppHost.GetAuthRepository(null);
       repo.CreateUserAuth(new UserAuth()
       {
-        Email = _config["Email"],
-        DisplayName = _config["DisplayName"],
-        UserName = _config["DisplayName"]
-      }, _config["Password"]);
+        Email = appSettings.Get<string>("Email"),
+        DisplayName = appSettings.Get<string>("DisplayName"),
+        UserName = appSettings.Get<string>("DisplayName")
+      }, appSettings.Get<string>("Password"));
     }
   }
 }

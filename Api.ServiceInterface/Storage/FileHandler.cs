@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Configuration;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -9,12 +7,13 @@ using System.IO;
 using System.Linq;
 using Api.ServiceInterface.Common;
 using ServiceStack;
+using ServiceStack.Configuration;
 
 namespace Api.ServiceInterface.Storage
 {
   public static class FileHandler
   {
-    private static NameValueCollection _config = ConfigurationManager.AppSettings;
+    private static IAppSettings _appSettings = new AppSettings();
 
     // From: https://github.com/ServiceStackApps/Imgur/blob/9bbac16be61ccb747525ed7eccd26f709a43a749/src/Imgur/Global.asax.cs#L129
     private static Stream Resize(Image img, int newWidth, int newHeight)
@@ -94,9 +93,9 @@ namespace Api.ServiceInterface.Storage
     // From: https://github.com/ServiceStackApps/Imgur/blob/9bbac16be61ccb747525ed7eccd26f709a43a749/src/Imgur/Global.asax.cs#L75
     private static string Write(string name, Stream ms, string type)
     {
-      string uploadDir = AssertDir(_config["UploadsDir"]);
-      string thumbnailsDir = AssertDir(_config["ThumbnailsDir"]);
-      int thumbnailSize = Int32.Parse(_config["ThumbnailSize"]);
+      string uploadDir = AssertDir(_appSettings.Get<string>("UploadsDir"));
+      string thumbnailsDir = AssertDir(_appSettings.Get<string>("ThumbnailsDir"));
+      int thumbnailSize = Int32.Parse(_appSettings.Get<string>("ThumbnailSize"));
 
       ms.Position = 0;
       string hash = Hashing.GetMd5Hash(ms.ReadFully());
