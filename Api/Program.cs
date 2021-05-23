@@ -82,7 +82,7 @@ namespace Api
       // Set Global AppHost Configuration
       base.SetConfig(new HostConfig
       {
-        DebugMode = AppSettings.Get(nameof(HostConfig.DebugMode), false)
+        DebugMode = AppSettings.Get("DebugMode", false)
       });
 
       LogManager.LogFactory = new SerilogFactory();
