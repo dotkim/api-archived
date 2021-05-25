@@ -12,6 +12,9 @@ using ServiceStack.Configuration;
 using ServiceStack.Logging;
 using ServiceStack.Logging.Serilog;
 using System.Net;
+using Serilog;
+using ServiceStack.IO;
+using System;
 
 namespace Api
 {
@@ -78,14 +81,41 @@ namespace Api
     public override void Configure(Container container)
     {
       IAppSettings appSettings = new AppSettings();
+      bool debugMode = AppSettings.Get("DebugMode", false);
 
-      // Set Global AppHost Configuration
-      base.SetConfig(new HostConfig
+      if (debugMode)
       {
-        DebugMode = AppSettings.Get("DebugMode", false)
+        base.SetConfig(new HostConfig
+        {
+          DebugMode = debugMode
+        });
+      }
+      else
+      {
+        base.SetConfig(new HostConfig
+        {
+          EnableFeatures = Feature.All.Remove(Feature.Metadata)
+        });
+      }
+
+      Plugins.Add(new RequestLogsFeature
+      {
+        RequestLogger = new CsvRequestLogger(
+        files: new FileSystemVirtualFiles(HostContext.Config.WebHostPhysicalPath),
+        requestLogsPattern: "requestlogs/{year}-{month}/{year}-{month}-{day}.csv",
+        errorLogsPattern: "requestlogs/{year}-{month}/{year}-{month}-{day}-errors.csv",
+        appendEvery: TimeSpan.FromSeconds(1)
+        ),
       });
 
-      LogManager.LogFactory = new SerilogFactory();
+
+      //TODO: Logger will later be able to write to file or elastic.
+      LogManager.LogFactory = new SerilogFactory(
+        new LoggerConfiguration()
+        .WriteTo.Console()
+        .MinimumLevel.Debug()
+        .CreateLogger()
+      );
 
       Task.Run(async () =>
             {
