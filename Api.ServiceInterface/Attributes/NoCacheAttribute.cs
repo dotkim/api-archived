@@ -1,7 +1,7 @@
 using ServiceStack;
 using ServiceStack.Web;
 
-namespace Api.Attributes
+namespace Api.ServiceInterface.Attributes
 {
   public class NoCacheAttribute : RequestFilterAttribute
   {
