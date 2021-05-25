@@ -1,4 +1,5 @@
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,15 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Api.ServiceInterface;
 using Funq;
-using MongoDB.Entities;
 using ServiceStack;
 using ServiceStack.Configuration;
-using ServiceStack.Logging;
-using ServiceStack.Logging.Serilog;
-using System.Net;
-using Serilog;
-using ServiceStack.IO;
-using System;
 
 namespace Api
 {
@@ -96,14 +90,6 @@ namespace Api
           EnableFeatures = Feature.All.Remove(Feature.Metadata)
         });
       }
-
-      Task.Run(async () =>
-            {
-              await DB.InitAsync(appSettings.Get<string>("MongoDatabase", "chatbot"),
-                appSettings.Get<string>("MongoHost", "localhost"));
-            })
-            .GetAwaiter()
-            .GetResult();
     }
   }
 }
