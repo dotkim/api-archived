@@ -80,6 +80,8 @@ namespace Api.ServiceInterface.Storage
       foreach (var uploadedFile in files
        .Where(uploadedFile => uploadedFile.ContentLength > 0))
       {
+        if (!MimeTypes.GetMimeType(uploadedFile.FileName).StartsWith(type)) continue;
+
         using (var ms = new System.IO.MemoryStream())
         {
           uploadedFile.WriteTo(ms);
@@ -130,6 +132,11 @@ namespace Api.ServiceInterface.Storage
       if (!Directory.Exists(dirPath))
         Directory.CreateDirectory(dirPath);
       return dirPath;
+    }
+
+    public static FileInfo GetFile(string name)
+    {
+      return new FileInfo(_appSettings.Get<string>("UploadsDir").CombineWith(name));
     }
   }
 }
