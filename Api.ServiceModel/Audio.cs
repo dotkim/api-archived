@@ -1,10 +1,10 @@
-using Api.ServiceModel.Entities;
 using ServiceStack;
 
 namespace Api.ServiceModel
 {
+  [Route("/audio/random/{GuildId}", "GET")]
   [Route("/audio/random/{GuildId}/{Filter}", "GET")]
-  public class GetAudioRandom : IReturn<GetAudioRandomResponse>
+  public class GetAudioRandom
   {
     public ulong GuildId { get; set; }
     public string Filter { get; set; }
@@ -14,10 +14,5 @@ namespace Api.ServiceModel
   public class PostAudio
   {
     public ulong GuildId { get; set; }
-  }
-
-  public class GetAudioRandomResponse
-  {
-    public Audio Result { get; set; }
   }
 }
