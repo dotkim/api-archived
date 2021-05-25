@@ -7,7 +7,7 @@ namespace Api.ServiceModel
   public class GetAudioRandom
   {
     public ulong GuildId { get; set; }
-    public string Filter { get; set; }
+    public string Filter { get; set; } = "tagme";
   }
 
   [Route("/audio/{GuildId}", "POST")]

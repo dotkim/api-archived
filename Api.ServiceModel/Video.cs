@@ -7,7 +7,7 @@ namespace Api.ServiceModel
   public class GetVideoRandom
   {
     public ulong GuildId { get; set; }
-    public string Filter { get; set; }
+    public string Filter { get; set; } = "tagme";
   }
 
   [Route("/video/{GuildId}", "POST")]
