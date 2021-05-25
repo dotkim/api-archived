@@ -60,7 +60,6 @@ namespace Api
 
       app.Run(context =>
       {
-        context.Response.Redirect("/metadata");
         return Task.FromResult(0);
       });
     }
