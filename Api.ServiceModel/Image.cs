@@ -16,7 +16,7 @@ namespace Api.ServiceModel
 
   [Route("/image/random/{GuildId}", "GET")]
   [Route("/image/random/{GuildId}/{Filter}", "GET")]
-  public class GetImageRandom
+  public class GetImageRandom : IReturn<GetImageRandomResponse>
   {
     [ApiMember(IsRequired = true)]
     public ulong GuildId { get; set; }
@@ -33,5 +33,10 @@ namespace Api.ServiceModel
   public class GetImagePageResponse
   {
     public List<Image> Result { get; set; }
+  }
+
+  public class GetImageRandomResponse
+  {
+    public Image Result { get; set; }
   }
 }

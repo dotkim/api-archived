@@ -133,10 +133,5 @@ namespace Api.ServiceInterface.Storage
         Directory.CreateDirectory(dirPath);
       return dirPath;
     }
-
-    public static FileInfo GetFile(string name)
-    {
-      return new FileInfo(_appSettings.Get<string>("UploadsDir").CombineWith(name));
-    }
   }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Api.ServiceInterface.Attributes;
 using Api.ServiceInterface.Modules;
 using Api.ServiceInterface.Storage;
 using Api.ServiceModel;
@@ -25,17 +24,12 @@ namespace Api.ServiceInterface
       return new GetImagePageResponse { Result = query };
     }
 
-    [NoCacheAttribute]
-    public async Task<HttpResult> GetAsync(GetImageRandom request)
+    public async Task<GetImageRandomResponse> GetAsync(GetImageRandom request)
     {
       var query = await ImageModule.GetRandom(request.GuildId, request.Filter);
       if (query is null) throw new FileNotFoundException("There are no image files for this guild.");
 
-      var file = FileHandler.GetFile(query.Name);
-      if (!file.Exists) throw new FileNotFoundException("There was a problem fetching the file.");
-
-      var response = new HttpResult(file, "image/" + query.Extension);
-      return response;
+      return new GetImageRandomResponse { Result = query };
     }
 
     public async Task<object> PostAsync(PostImage request)

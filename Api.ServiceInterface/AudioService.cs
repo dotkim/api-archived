@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Api.ServiceInterface.Attributes;
 using Api.ServiceInterface.Modules;
 using Api.ServiceInterface.Storage;
 using Api.ServiceModel;
@@ -17,17 +16,12 @@ namespace Api.ServiceInterface
   {
     private static ILog _Log = LogManager.GetLogger(typeof(AudioService));
 
-    [NoCacheAttribute]
-    public async Task<HttpResult> GetAsync(GetAudioRandom request)
+    public async Task<GetAudioRandomResponse> GetAsync(GetAudioRandom request)
     {
       var query = await AudioModule.GetRandom(request.GuildId, request.Filter);
       if (query is null) throw new FileNotFoundException("There are no audio files for this guild.");
       
-      var file = FileHandler.GetFile(query.Name);
-      if (!file.Exists) throw new FileNotFoundException("There was a problem fetching the file.");
-
-      var response = new HttpResult(file, "image/" + query.Extension);
-      return response;
+      return new GetAudioRandomResponse { Result = query };
     }
 
     public async Task<object> PostAsync(PostAudio request)
