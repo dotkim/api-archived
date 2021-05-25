@@ -37,7 +37,7 @@ namespace Api.Tests
     {
       var client = CreateClient();
 
-      var response = client.Get(new GetImageRandom { GuildId = 1234 });
+      //var response = client.Get(new GetImageRandom { GuildId = 1234 });
 
       //Assert.That(response.Result, Is.EqualTo("Hello, World!"));
     }
