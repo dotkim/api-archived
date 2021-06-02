@@ -2,42 +2,49 @@ using System;
 using System.Threading.Tasks;
 using Api.ServiceModel.Entities;
 using Api.ServiceInterface.Interfaces;
+using Api.ServiceInterface.Storage;
+using System.Collections.Generic;
 
 namespace Api.ServiceInterface.Modules
 {
   /// <summary>
   /// Module for performing database specific queries on the Audio type.
   /// </summary>
-  public class AudioModule : Audio, IDatabase<Audio>
+  public class AudioModule : IModel<Audio>
   {
-    internal static Task<Audio> Get(string name, ulong guildId)
+    public Audio GetTypeConstraint()
+    {
+      return new Audio();
+    }
+
+    public Task<Audio> Get(string name, ulong guildId)
     {
       throw new NotImplementedException();
     }
 
-    internal static Task<Audio> GetPage(int page, bool filter)
+    public Task<List<Audio>> GetPage(int page, bool filter)
     {
       throw new NotImplementedException();
     }
 
-    internal static Task<Audio> GetRandom(ulong guildId, string filter)
+    public Task<Audio> GetRandom(ulong guildId, string filter)
     {
-      return IDatabase<Audio>.GetRandom(guildId, filter);
+      return Database<Audio>.GetRandom(guildId, filter);
     }
 
-    internal static Task<bool> Exists(string name, ulong guildId)
+    public Task<bool> Exists(string name, ulong guildId)
     {
-      return IDatabase<Audio>.Exists(name, guildId);
+      return Database<Audio>.Exists(name, guildId);
     }
 
-    internal static Task<bool> Update(Audio audio)
+    public Task<bool> Update(Audio audio)
     {
-      return IDatabase<Audio>.Update(audio);
+      return Database<Audio>.Update(audio);
     }
 
-    internal static Task<bool> Insert(Audio audio)
+    public Task<bool> Insert(Audio audio)
     {
-      return IDatabase<Audio>.Insert(audio);
+      return Database<Audio>.Insert(audio);
     }
   }
 }

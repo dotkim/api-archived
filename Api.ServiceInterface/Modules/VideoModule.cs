@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Api.ServiceInterface.Interfaces;
+using Api.ServiceInterface.Storage;
 using Api.ServiceModel.Entities;
 
 namespace Api.ServiceInterface.Modules
@@ -8,36 +10,41 @@ namespace Api.ServiceInterface.Modules
   /// <summary>
   /// Module for performing database specific queries on the Video type.
   /// </summary>
-  public class VideoModule : Video, IDatabase<Video>
+  public class VideoModule : Video, IModel<Video>
   {
-    internal static Task<Video> Get(string name, ulong guildId)
+    public Video GetTypeConstraint()
+    {
+      return new Video();
+    }
+
+    public Task<Video> Get(string name, ulong guildId)
     {
       throw new NotImplementedException();
     }
 
-    internal static Task<Video> GetPage(int page, bool filter)
+    public Task<List<Video>> GetPage(int page, bool filter)
     {
       throw new NotImplementedException();
     }
 
-    internal static Task<Video> GetRandom(ulong guildId, string filter)
+    public Task<Video> GetRandom(ulong guildId, string filter)
     {
-      return IDatabase<Video>.GetRandom(guildId, filter);
+      return Database<Video>.GetRandom(guildId, filter);
     }
 
-    internal static Task<bool> Exists(string name, ulong guildId)
+    public Task<bool> Exists(string name, ulong guildId)
     {
-      return IDatabase<Video>.Exists(name, guildId);
+      return Database<Video>.Exists(name, guildId);
     } 
 
-    internal static Task<bool> Update(Video video)
+    public Task<bool> Update(Video video)
     {
-      return IDatabase<Video>.Update(video);
+      return Database<Video>.Update(video);
     }
 
-    internal static Task<bool> Insert(Video video)
+    public Task<bool> Insert(Video video)
     {
-      return IDatabase<Video>.Insert(video);
+      return Database<Video>.Insert(video);
     }
   }
 }

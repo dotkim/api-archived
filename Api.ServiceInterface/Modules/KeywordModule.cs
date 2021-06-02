@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Api.ServiceInterface.Interfaces;
+using Api.ServiceInterface.Storage;
 using Api.ServiceModel.Entities;
 using MongoDB.Entities;
 
@@ -9,29 +11,34 @@ namespace Api.ServiceInterface.Modules
   /// <summary>
   /// Module for performing database specific queries on the Keyword type.
   /// </summary>
-  public class KeywordModule : Keyword, IDatabase<Keyword>
+  public class KeywordModule : Keyword, IModel<Keyword>
   {
-    internal static Task<Keyword> Get(string name, ulong guildId)
+    public Keyword GetTypeConstraint()
     {
-      return IDatabase<Keyword>.Get(name, guildId);
+      return new Keyword();
     }
 
-    internal static Task<Keyword> GetPage(int page, bool filter)
+    public Task<Keyword> Get(string name, ulong guildId)
+    {
+      return Database<Keyword>.Get(name, guildId);
+    }
+
+    public Task<List<Keyword>> GetPage(int page, bool filter)
     {
       throw new NotImplementedException();
     }
 
-    internal static Task<Keyword> GetRandom(ulong guildId)
+    public Task<Keyword> GetRandom(ulong guildId, string filter)
     {
       throw new NotImplementedException();
     }
 
-    internal static Task<bool> Exists(string name, ulong guildId)
+    public Task<bool> Exists(string name, ulong guildId)
     {
-      return IDatabase<Keyword>.Exists(name, guildId);
+      return Database<Keyword>.Exists(name, guildId);
     }
 
-    public async static Task<bool> Update(Keyword keyword)
+    public async Task<bool> Update(Keyword keyword)
     {
       var res = await DB.Update<Keyword>()
         .Match(a => a.Name == keyword.Name)
@@ -42,9 +49,9 @@ namespace Api.ServiceInterface.Modules
       return res.IsAcknowledged;
     }
 
-    internal static Task<bool> Insert(Keyword keyword)
+    public Task<bool> Insert(Keyword keyword)
     {
-      return IDatabase<Keyword>.Insert(keyword);
+      return Database<Keyword>.Insert(keyword);
     }
   }
 }
