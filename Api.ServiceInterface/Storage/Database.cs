@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Api.ServiceModel.Interfaces;
 using MongoDB.Entities;
 
-namespace Api.ServiceInterface.Interfaces
+namespace Api.ServiceInterface.Storage
 {
-  public interface IDatabase<T> where T : ISchema
+  public class Database<T> where T : ISchema
   {
     /// <summary>
     /// Get document from the database.
@@ -14,7 +14,7 @@ namespace Api.ServiceInterface.Interfaces
     /// <param name="name">Name of the document.</param>
     /// <param name="gid">GuildId from Discord.</param>
     /// <returns>An instance of the document entity.</returns>
-    async static Task<T> Get(string name, ulong gid)
+    public async static Task<T> Get(string name, ulong gid)
     {
       var res = await DB.Find<T>()
         .Match(a => a.Name == name)
@@ -32,7 +32,7 @@ namespace Api.ServiceInterface.Interfaces
     /// <param name="page">What page of documents to return</param>
     /// <param name="filter">A bit switch for returning a filtered list.</param>
     /// <returns>A list of T</returns>
-    public static Task<List<T>> GetPage(int page, bool filter)
+    public async static Task<List<T>> GetPage(int page, bool filter)
     {
       // TODO: Implement filtering.
       int returnSize = 24;  // The amount of images that should be returned. TODO: Get this from config.
@@ -41,7 +41,7 @@ namespace Api.ServiceInterface.Interfaces
       // This ensures we skip the correct amount of images pr. page.
       if (page != 0) skip = returnSize * page;
 
-      return DB.Find<T>()
+      return await DB.Find<T>()
         .Sort(a => a.ModifiedOn, Order.Descending)
         .Skip(skip).Limit(returnSize)
         .ProjectExcluding(a => new { a.ID })
@@ -55,7 +55,7 @@ namespace Api.ServiceInterface.Interfaces
     /// </summary>
     /// <param name="gid">GuildId from Discord.</param>
     /// <returns>An instance of the document entity.</returns>
-    async static Task<T> GetRandom(ulong gid, string filter)
+    public async static Task<T> GetRandom(ulong gid, string filter)
     {
       var count = await DB.CountAsync<T>(a => a.GuildId == gid && a.Tags.Contains(filter));
 
@@ -75,7 +75,7 @@ namespace Api.ServiceInterface.Interfaces
     /// <param name="name">Name of the document.</param>
     /// <param name="gid">GuildId from Discord</param>
     /// <returns>boolean</returns>
-    async static Task<bool> Exists(string name, ulong gid)
+    public async static Task<bool> Exists(string name, ulong gid)
     {
       long count = await DB.CountAsync<T>(a => a.Name == name && a.GuildId == gid);
       if (count > 0) return true;
@@ -87,7 +87,7 @@ namespace Api.ServiceInterface.Interfaces
     /// </summary>
     /// <param name="type">An instance of the type to insert</param>
     /// <returns>boolean</returns>
-    async static Task<bool> Insert(T type)
+    public async static Task<bool> Insert(T type)
     {
       var res = await DB.SaveAsync(type);
       return res.IsAcknowledged;
@@ -98,7 +98,7 @@ namespace Api.ServiceInterface.Interfaces
     /// </summary>
     /// <param name="type">An instance of the type to update.</param>
     /// <returns>boolean</returns>
-    async static Task<bool> Update(T type)
+    public async static Task<bool> Update(T type)
     {
       var res = await DB.Update<T>()
         .Match(a => a.Name == type.Name)
