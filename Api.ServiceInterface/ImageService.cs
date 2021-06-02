@@ -15,10 +15,11 @@ namespace Api.ServiceInterface
   public class ImageService : Service
   {
     private static ILog _Log = LogManager.GetLogger(typeof(ImageService));
+    private ImageModule _module = new ImageModule();
 
     public async Task<GetImagePageResponse> GetAsync(GetImagePage request)
     {
-      var query = await ImageModule.GetPage(request.Page, true);
+      var query = await _module.GetPage(request.Page, true);
       if (query.Count <= 0) throw new FileNotFoundException("Empty page from database, is there no more pages?");
 
       return new GetImagePageResponse { Result = query };
@@ -26,7 +27,7 @@ namespace Api.ServiceInterface
 
     public async Task<GetImageRandomResponse> GetAsync(GetImageRandom request)
     {
-      var query = await ImageModule.GetRandom(request.GuildId, request.Filter);
+      var query = await _module.GetRandom(request.GuildId, request.Filter);
       if (query is null) throw new FileNotFoundException("There are no image files for this guild.");
 
       return new GetImageRandomResponse { Result = query };
@@ -52,26 +53,24 @@ namespace Api.ServiceInterface
       {
         string ext = file.Split(".").Last();
 
-        ImageModule image = new ImageModule
-        {
-          Name = file,
-          GuildId = request.GuildId,
-          Extension = ext,
-          Tags = new List<string> { "tagme" }
-        };
+        var image = _module.GetTypeConstraint();
+        image.Name = file;
+        image.GuildId = request.GuildId;
+        image.Extension = ext;
+        image.Tags = new List<string> { "tagme" };
 
-        bool check = await ImageModule.Exists(image.Name, request.GuildId);
+        bool check = await _module.Exists(image.Name, request.GuildId);
 
         bool query;
         // A file should be updated when it already exists.
         // If it doesn't its inserted.
         if (check)
         {
-          query = await ImageModule.Update(image);
+          query = await _module.Update(image);
         }
         else
         {
-          query = await ImageModule.Insert(image);
+          query = await _module.Insert(image);
         }
 
         // Adds the file and query result.

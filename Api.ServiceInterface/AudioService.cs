@@ -15,10 +15,11 @@ namespace Api.ServiceInterface
   public class AudioService : Service
   {
     private static ILog _Log = LogManager.GetLogger(typeof(AudioService));
+    private AudioModule _module = new AudioModule();
 
     public async Task<GetAudioRandomResponse> GetAsync(GetAudioRandom request)
     {
-      var query = await AudioModule.GetRandom(request.GuildId, request.Filter);
+      var query = await _module.GetRandom(request.GuildId, request.Filter);
       if (query is null) throw new FileNotFoundException("There are no audio files for this guild.");
       
       return new GetAudioRandomResponse { Result = query };
@@ -44,26 +45,24 @@ namespace Api.ServiceInterface
       {
         string ext = file.Split(".").Last();
 
-        AudioModule audio = new AudioModule
-        {
-          Name = file,
-          GuildId = request.GuildId,
-          Extension = ext,
-          Tags = new List<string> { "tagme" }
-        };
+        var audio = _module.GetTypeConstraint();
+        audio.Name = file;
+        audio.GuildId = request.GuildId;
+        audio.Extension = ext;
+        audio.Tags = new List<string> { "tagme" };
 
-        bool check = await AudioModule.Exists(audio.Name, request.GuildId);
+        bool check = await _module.Exists(audio.Name, request.GuildId);
 
         bool query;
         // A file should be updated when it already exists.
         // If it doesn't its inserted.
         if (check)
         {
-          query = await AudioModule.Update(audio);
+          query = await _module.Update(audio);
         }
         else
         {
-          query = await AudioModule.Insert(audio);
+          query = await _module.Insert(audio);
         }
         
         // Adds the file and query result.

@@ -15,10 +15,11 @@ namespace Api.ServiceInterface
   public class VideoService : Service
   {
     private static ILog _Log = LogManager.GetLogger(typeof(VideoService));
+    private VideoModule _module = new VideoModule();
 
     public async Task<GetVideoRandomResponse> GetAsync(GetVideoRandom request)
     {
-      var query = await VideoModule.GetRandom(request.GuildId, request.Filter);
+      var query = await _module.GetRandom(request.GuildId, request.Filter);
       if (query is null) throw new FileNotFoundException("There are no video files for this guild.");
 
       return new GetVideoRandomResponse { Result = query };
@@ -44,26 +45,24 @@ namespace Api.ServiceInterface
       {
         string ext = file.Split(".").Last();
 
-        VideoModule video = new VideoModule
-        {
-          Name = file,
-          GuildId = request.GuildId,
-          Extension = ext,
-          Tags = new List<string> { "tagme" }
-        };
+        var video = _module.GetTypeConstraint();
+        video.Name = file;
+        video.GuildId = request.GuildId;
+        video.Extension = ext;
+        video.Tags = new List<string> { "tagme" };
 
-        bool check = await VideoModule.Exists(video.Name, request.GuildId);
+        bool check = await _module.Exists(video.Name, request.GuildId);
 
         bool query;
         // A file should be updated when it already exists.
         // If it doesn't its inserted.
         if (check)
         {
-          query = await VideoModule.Update(video);
+          query = await _module.Update(video);
         }
         else
         {
-          query = await VideoModule.Insert(video);
+          query = await _module.Insert(video);
         }
         
         // Adds the file and query result.
