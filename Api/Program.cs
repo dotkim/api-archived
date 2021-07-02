@@ -21,10 +21,10 @@ namespace Api
       var host = new WebHostBuilder()
           .UseKestrel(options =>
           {
-            options.Listen(IPAddress.Loopback, 8080);
+            options.Listen(IPAddress.Any, 8080);
             if (appSettings.Exists("UseHTTPS"))
             {
-              options.Listen(IPAddress.Loopback, 8443, listenOptions =>
+              options.Listen(IPAddress.Any, 8443, listenOptions =>
               {
                 listenOptions.UseHttps(appSettings.Get<string>("CertificatePath"),
                   appSettings.Get<string>("CertificateSecret"));
