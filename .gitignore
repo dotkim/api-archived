@@ -292,3 +292,4 @@ __pycache__/
 
 # Servicestack files and folders
 Api/requestlogs
+docs/
