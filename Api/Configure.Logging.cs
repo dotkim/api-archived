@@ -1,5 +1,4 @@
 using System;
-using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using ServiceStack;
 using ServiceStack.Configuration;
@@ -33,19 +32,19 @@ namespace Api
 
       switch (appSettings.Get<string>("SerilogSink"))
       {
-          case "Elastic":
-            // Will be changed for elastic support.
-            config.WriteTo.Console();
-            break;
+        case "Elastic":
+          // Will be changed for elastic support.
+          config.WriteTo.Console();
+          break;
 
-          case "File":
-            // Will be changed for file support.
-            config.WriteTo.Console();
-            break;
+        case "File":
+          // Will be changed for file support.
+          config.WriteTo.Console();
+          break;
 
-          default:
-            config.WriteTo.Console();
-            break;
+        default:
+          config.WriteTo.Console();
+          break;
       }
 
       LogManager.LogFactory = new SerilogFactory(config.CreateLogger());
