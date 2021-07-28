@@ -10,6 +10,7 @@ using ServiceStack.Logging;
 namespace Api.ServiceInterface
 {
   [Authenticate]
+  [RequiredRole("Admin")]
   public class KeywordService : Service
   {
     private static ILog _Log = LogManager.GetLogger(typeof(KeywordService));

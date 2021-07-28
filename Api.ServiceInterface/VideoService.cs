@@ -12,6 +12,7 @@ using ServiceStack.Logging;
 namespace Api.ServiceInterface
 {
   [Authenticate]
+  [RequiredRole("Admin")]
   public class VideoService : Service
   {
     private static ILog _Log = LogManager.GetLogger(typeof(VideoService));
@@ -64,7 +65,7 @@ namespace Api.ServiceInterface
         {
           query = await _module.Insert(video);
         }
-        
+
         // Adds the file and query result.
         checkList.Add(file, query);
       }

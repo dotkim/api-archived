@@ -12,6 +12,7 @@ using ServiceStack.Logging;
 namespace Api.ServiceInterface
 {
   [Authenticate]
+  [RequiredRole("Admin")]
   public class ImageService : Service
   {
     private static ILog _Log = LogManager.GetLogger(typeof(ImageService));

@@ -12,6 +12,7 @@ using ServiceStack.Logging;
 namespace Api.ServiceInterface
 {
   [Authenticate]
+  [RequiredRole("Admin")]
   public class AudioService : Service
   {
     private static ILog _Log = LogManager.GetLogger(typeof(AudioService));
@@ -21,7 +22,7 @@ namespace Api.ServiceInterface
     {
       var query = await _module.GetRandom(request.GuildId, request.Filter);
       if (query is null) throw new FileNotFoundException("There are no audio files for this guild.");
-      
+
       return new GetAudioRandomResponse { Result = query };
     }
 
@@ -64,7 +65,7 @@ namespace Api.ServiceInterface
         {
           query = await _module.Insert(audio);
         }
-        
+
         // Adds the file and query result.
         checkList.Add(file, query);
       }
