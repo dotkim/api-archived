@@ -23,8 +23,13 @@ namespace api
     }
   }
 
-  public class ConfigureAuth : IConfigureAppHost
+  public class ConfigureAuth : IConfigureAppHost, IConfigureServices
   {
+    public void Configure(IServiceCollection services)
+    {
+      //services.AddSingleton<ICacheClient>(new MemoryCacheClient()); //Store User Sessions in Memory Cache (default)
+    }
+
     public void Configure(IAppHost appHost)
     {
       var AppSettings = appHost.AppSettings;
