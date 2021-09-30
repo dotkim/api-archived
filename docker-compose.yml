@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "mongo"
+      - "redis"
+    links:
+      - "mongo:database"
+      - "redis:auth"
+  mongo:
+    image: "mongo:latest"
+    volumes:
+      - ~/persistance/mongo/:/data/db
+  redis:
+    image: "redis:latest"
