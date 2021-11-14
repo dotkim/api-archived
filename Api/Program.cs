@@ -21,7 +21,6 @@ namespace Api
       var host = new WebHostBuilder()
           .UseKestrel(options =>
           {
-            options.Listen(IPAddress.Any, 8080);
             if (appSettings.Exists("UseHTTPS"))
             {
               options.Listen(IPAddress.Any, 8443, listenOptions =>
@@ -29,6 +28,10 @@ namespace Api
                 listenOptions.UseHttps(appSettings.Get<string>("CertificatePath"),
                   appSettings.Get<string>("CertificateSecret"));
               });
+            }
+            else
+            {
+              options.Listen(IPAddress.Any, 8080);
             }
           })
           .UseContentRoot(Directory.GetCurrentDirectory())
@@ -74,7 +77,7 @@ namespace Api
     public override void Configure(Container container)
     {
       IAppSettings appSettings = new AppSettings();
-      bool debugMode = AppSettings.Get("DebugMode", false);
+      bool debugMode = appSettings.Get<bool>("DebugMode", false);
 
       if (debugMode)
       {
