@@ -24,8 +24,8 @@ namespace Api.Tests
         {
             var service = appHost.Container.Resolve<ImageService>();
 
-            var response = await service.GetAsync(new GetImagePage { Page = 1, Filter = true});
-            var converted = (GetImagePageResponse) response;
+            var response = await service.GetAsync(new GetImageRandom { GuildId = 1234 });
+            var converted = (GetImageRandomResponse) response;
 
             Assert.That(converted.GetResponseStatus(), Is.GreaterThanOrEqualTo(200));
             Assert.That(converted.GetResponseStatus(), Is.LessThanOrEqualTo(299));

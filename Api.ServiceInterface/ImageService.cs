@@ -18,14 +18,6 @@ namespace Api.ServiceInterface
     private static ILog _Log = LogManager.GetLogger(typeof(ImageService));
     private ImageModule _module = new ImageModule();
 
-    public async Task<GetImagePageResponse> GetAsync(GetImagePage request)
-    {
-      var query = await _module.GetPage(request.Page, true);
-      if (query.Count <= 0) throw new FileNotFoundException("Empty page from database, is there no more pages?");
-
-      return new GetImagePageResponse { Result = query };
-    }
-
     public async Task<GetImageRandomResponse> GetAsync(GetImageRandom request)
     {
       var query = await _module.GetRandom(request.GuildId, request.Filter);
