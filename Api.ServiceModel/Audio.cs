@@ -19,6 +19,6 @@ namespace Api.ServiceModel
 
   public class GetAudioRandomResponse
   {
-    public Audio Result { get; set; }
+    public Audio FileInfo { get; set; }
   }
 }

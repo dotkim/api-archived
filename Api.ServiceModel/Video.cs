@@ -19,6 +19,6 @@ namespace Api.ServiceModel
 
   public class GetVideoRandomResponse
   {
-    public Video Result { get; set; }
+    public Video FileInfo { get; set; }
   }
 }

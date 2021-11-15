@@ -21,6 +21,6 @@ namespace Api.ServiceModel
 
   public class GetImageRandomResponse
   {
-    public Image Result { get; set; }
+    public Image FileInfo { get; set; }
   }
 }

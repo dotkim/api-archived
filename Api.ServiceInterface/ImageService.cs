@@ -23,7 +23,7 @@ namespace Api.ServiceInterface
       var query = await _module.GetRandom(request.GuildId, request.Filter);
       if (query is null) throw new FileNotFoundException("There are no image files for this guild.");
 
-      return new GetImageRandomResponse { Result = query };
+      return new GetImageRandomResponse { FileInfo = query };
     }
 
     public async Task<object> PostAsync(PostImage request)
