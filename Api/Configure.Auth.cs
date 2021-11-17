@@ -36,7 +36,8 @@ namespace api
       appHost.Plugins.Add(new AuthFeature(() => new CustomUserSession(),
           new IAuthProvider[] {
                     new CredentialsAuthProvider(AppSettings),     /* Sign In with Username / Password credentials */
-                    new ApiKeyAuthProvider(AppSettings)
+                    new ApiKeyAuthProvider(AppSettings),
+                    new BasicAuthProvider(AppSettings)
           }));
 
       //appHost.Plugins.Add(new RegistrationFeature()); //Enable /register Service
