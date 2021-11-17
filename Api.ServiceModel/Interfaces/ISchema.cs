@@ -7,6 +7,7 @@ namespace Api.ServiceModel.Interfaces
   {
     string Name { get; set; }
     ulong GuildId { get; set; }
+    ulong UploaderId { get; set; }
     List<string> Tags { get; set; }
   }
 }

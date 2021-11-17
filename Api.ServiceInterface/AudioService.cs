@@ -49,6 +49,7 @@ namespace Api.ServiceInterface
         var audio = _module.GetTypeConstraint();
         audio.Name = file;
         audio.GuildId = request.GuildId;
+        audio.UploaderId = request.UploaderId;
         audio.Extension = ext;
         audio.Tags = new List<string> { "tagme" };
 

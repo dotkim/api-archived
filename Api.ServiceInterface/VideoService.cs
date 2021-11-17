@@ -49,6 +49,7 @@ namespace Api.ServiceInterface
         var video = _module.GetTypeConstraint();
         video.Name = file;
         video.GuildId = request.GuildId;
+        video.UploaderId = request.UploaderId;
         video.Extension = ext;
         video.Tags = new List<string> { "tagme" };
 

@@ -49,6 +49,7 @@ namespace Api.ServiceInterface
         var image = _module.GetTypeConstraint();
         image.Name = file;
         image.GuildId = request.GuildId;
+        image.UploaderId = request.UploaderId;
         image.Extension = ext;
         image.Tags = new List<string> { "tagme" };
 

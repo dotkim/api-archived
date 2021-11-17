@@ -11,10 +11,11 @@ namespace Api.ServiceModel
     public string Filter { get; set; } = "tagme";
   }
 
-  [Route("/audio/{GuildId}", "POST")]
+  [Route("/audio/{GuildId}/{UploaderId}", "POST")]
   public class PostAudio
   {
     public ulong GuildId { get; set; }
+    public ulong UploaderId { get; set; }
   }
 
   public class GetAudioRandomResponse

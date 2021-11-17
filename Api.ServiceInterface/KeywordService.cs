@@ -50,6 +50,7 @@ namespace Api.ServiceInterface
         var schema = _module.GetTypeConstraint();
         schema.Name = name;
         schema.GuildId = request.GuildId;
+        schema.UploaderId = request.UploaderId;
         schema.Messages = new List<KeywordMessage> { new KeywordMessage { Message = request.Message } };
 
         var query = await _module.Insert(schema);
