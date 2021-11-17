@@ -9,6 +9,7 @@ using Api.ServiceInterface;
 using Funq;
 using ServiceStack;
 using ServiceStack.Configuration;
+using ServiceStack.VirtualPath;
 
 namespace Api
 {
@@ -78,6 +79,7 @@ namespace Api
     {
       IAppSettings appSettings = new AppSettings();
       bool debugMode = appSettings.Get<bool>("DebugMode", false);
+      AddVirtualFileSources.Add(new FileSystemMapping("assets", appSettings.Get<string>("UploadsDir")));
 
       if (debugMode)
       {
