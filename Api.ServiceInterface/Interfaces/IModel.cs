@@ -9,8 +9,6 @@ namespace Api.ServiceInterface.Interfaces
     T GetTypeConstraint();
     Task<T> Get(string name, ulong guildId);
 
-    Task<List<T>> GetPage(int page, bool filter);
-
     Task<T> GetRandom(ulong guildId, string filter);
 
     Task<bool> Exists(string name, ulong gid);

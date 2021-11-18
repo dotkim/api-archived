@@ -11,14 +11,15 @@ namespace Api.ServiceModel
     public string Filter { get; set; } = "tagme";
   }
 
-  [Route("/video/{GuildId}", "POST")]
+  [Route("/video/{GuildId}/{UploaderId}", "POST")]
   public class PostVideo
   {
     public ulong GuildId { get; set; }
+    public ulong UploaderId { get; set; }
   }
 
   public class GetVideoRandomResponse
   {
-    public Video Result { get; set; }
+    public Video FileInfo { get; set; }
   }
 }

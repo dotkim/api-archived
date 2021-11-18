@@ -10,6 +10,7 @@ namespace Api.ServiceModel.Entities
   public class Keyword : Entity, ISchema
   {
     public string Name { get; set; }
+    public ulong UploaderId { get; set; }
     public ulong GuildId { get; set; }
     public List<KeywordMessage> Messages { get; set; }
     public List<string> Tags { get; set; }

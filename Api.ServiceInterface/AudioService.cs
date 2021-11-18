@@ -23,7 +23,7 @@ namespace Api.ServiceInterface
       var query = await _module.GetRandom(request.GuildId, request.Filter);
       if (query is null) throw new FileNotFoundException("There are no audio files for this guild.");
 
-      return new GetAudioRandomResponse { Result = query };
+      return new GetAudioRandomResponse { FileInfo = query };
     }
 
     public async Task<object> PostAsync(PostAudio request)
@@ -49,6 +49,7 @@ namespace Api.ServiceInterface
         var audio = _module.GetTypeConstraint();
         audio.Name = file;
         audio.GuildId = request.GuildId;
+        audio.UploaderId = request.UploaderId;
         audio.Extension = ext;
         audio.Tags = new List<string> { "tagme" };
 

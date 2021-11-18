@@ -18,20 +18,12 @@ namespace Api.ServiceInterface
     private static ILog _Log = LogManager.GetLogger(typeof(ImageService));
     private ImageModule _module = new ImageModule();
 
-    public async Task<GetImagePageResponse> GetAsync(GetImagePage request)
-    {
-      var query = await _module.GetPage(request.Page, true);
-      if (query.Count <= 0) throw new FileNotFoundException("Empty page from database, is there no more pages?");
-
-      return new GetImagePageResponse { Result = query };
-    }
-
     public async Task<GetImageRandomResponse> GetAsync(GetImageRandom request)
     {
       var query = await _module.GetRandom(request.GuildId, request.Filter);
       if (query is null) throw new FileNotFoundException("There are no image files for this guild.");
 
-      return new GetImageRandomResponse { Result = query };
+      return new GetImageRandomResponse { FileInfo = query };
     }
 
     public async Task<object> PostAsync(PostImage request)
@@ -57,6 +49,7 @@ namespace Api.ServiceInterface
         var image = _module.GetTypeConstraint();
         image.Name = file;
         image.GuildId = request.GuildId;
+        image.UploaderId = request.UploaderId;
         image.Extension = ext;
         image.Tags = new List<string> { "tagme" };
 

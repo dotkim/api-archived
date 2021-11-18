@@ -36,13 +36,14 @@ namespace api
       appHost.Plugins.Add(new AuthFeature(() => new CustomUserSession(),
           new IAuthProvider[] {
                     new CredentialsAuthProvider(AppSettings),     /* Sign In with Username / Password credentials */
-                    new ApiKeyAuthProvider(AppSettings)
+                    new ApiKeyAuthProvider(AppSettings),
+                    new BasicAuthProvider(AppSettings)
           }));
 
-      appHost.Plugins.Add(new RegistrationFeature()); //Enable /register Service
+      //appHost.Plugins.Add(new RegistrationFeature()); //Enable /register Service
 
       //override the default registration validation with your own custom implementation
       appHost.RegisterAs<CustomRegistrationValidator, IValidator<Register>>();
     }
   }
-}
+} 

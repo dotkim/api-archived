@@ -23,7 +23,7 @@ namespace Api.ServiceInterface
       var query = await _module.GetRandom(request.GuildId, request.Filter);
       if (query is null) throw new FileNotFoundException("There are no video files for this guild.");
 
-      return new GetVideoRandomResponse { Result = query };
+      return new GetVideoRandomResponse { FileInfo = query };
     }
 
     public async Task<object> PostAsync(PostVideo request)
@@ -49,6 +49,7 @@ namespace Api.ServiceInterface
         var video = _module.GetTypeConstraint();
         video.Name = file;
         video.GuildId = request.GuildId;
+        video.UploaderId = request.UploaderId;
         video.Extension = ext;
         video.Tags = new List<string> { "tagme" };
 
