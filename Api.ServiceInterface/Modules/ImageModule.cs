@@ -24,7 +24,7 @@ namespace Api.ServiceInterface.Modules
 
     public Task<List<Image>> GetPage(int page, bool filter)
     {
-      return Database<Image>.GetPage(page, filter);
+      throw new NotImplementedException();
     }
 
     public Task<Image> GetRandom(ulong guildId, string filter)
