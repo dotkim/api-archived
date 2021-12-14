@@ -6,6 +6,7 @@ services:
       - "8080:8080"
     volumes:
       - ~/persistance/api/uploads:/app/uploads:rw
+      - ~/persistance/api/requestLogs:/app/requestLogs:rw
     depends_on:
       - "mongo"
       - "redis"
