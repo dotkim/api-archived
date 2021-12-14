@@ -79,7 +79,10 @@ namespace Api
     {
       IAppSettings appSettings = new AppSettings();
       bool debugMode = appSettings.Get<bool>("DebugMode", false);
-      AddVirtualFileSources.Add(new FileSystemMapping("assets", appSettings.Get<string>("UploadsDir")));
+      
+      string staticDir = appSettings.Get<string>("UploadsDir");
+      if (!Directory.Exists(staticDir)) Directory.CreateDirectory(staticDir);
+      AddVirtualFileSources.Add(new FileSystemMapping("assets", staticDir));
 
       if (debugMode)
       {
