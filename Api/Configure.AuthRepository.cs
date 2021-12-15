@@ -7,7 +7,7 @@ using ServiceStack.Configuration;
 using ServiceStack.Redis;
 using ServiceStack.Web;
 
-namespace api
+namespace Api
 {
   // Custom UserAuth Data Model with extended Metadata properties
   public class AppUser : UserAuth

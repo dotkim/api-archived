@@ -4,7 +4,7 @@ using ServiceStack;
 using ServiceStack.Configuration;
 using ServiceStack.Redis;
 
-namespace api
+namespace Api
 {
   public class ConfigureRedis : IConfigureServices, IConfigureAppHost
   {
