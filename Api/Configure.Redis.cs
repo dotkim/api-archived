@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ServiceStack;
+using ServiceStack.Configuration;
 using ServiceStack.Redis;
 
 namespace api
@@ -12,8 +13,10 @@ namespace api
 
     public void Configure(IServiceCollection services)
     {
+      IAppSettings appSettings = new AppSettings();
+
       services.AddSingleton<IRedisClientsManager>(
-          new RedisManagerPool(Configuration.GetConnectionString("Redis") ?? "localhost:6379"));
+          new RedisManagerPool(appSettings.Get<string>("RedisConnectionstring", "localhost:6379")));
     }
 
     public void Configure(IAppHost appHost)

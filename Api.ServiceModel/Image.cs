@@ -7,7 +7,6 @@ namespace Api.ServiceModel
   [Route("/image/random/{GuildId}/{Filter}", "GET")]
   public class GetImageRandom : IReturn<GetImageRandomResponse>
   {
-    [ApiMember(IsRequired = true)]
     public ulong GuildId { get; set; }
     public string Filter { get; set; } = "tagme";
   }
@@ -15,7 +14,6 @@ namespace Api.ServiceModel
   [Route("/image/{GuildId}/{UploaderId}", "POST")]
   public class PostImage
   {
-    [ApiMember(IsRequired = true)]
     public ulong GuildId { get; set; }
     public ulong UploaderId { get; set; }
   }
