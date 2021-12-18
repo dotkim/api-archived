@@ -5,8 +5,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ~/persistance/api/uploads:/app/uploads:rw
-      - ~/persistance/api/requestlogs:/app/requestlogs:rw
+      - api-data:/app/uploads:rw
+      - api-data:/app/requestlogs:rw
     depends_on:
       - "mongo"
       - "redis"
@@ -16,6 +16,8 @@ services:
   mongo:
     image: "mongo:latest"
     volumes:
-      - ~/persistance/mongo/:/data/db
+      - api-data:/data/db
   redis:
     image: "redis:latest"
+volumes:
+  api-data:
