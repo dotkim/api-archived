@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MongoDB.Entities;
 using ServiceStack.Configuration;
 
-namespace api
+namespace Api
 {
   public class ConfigureMongoDb : IConfigureServices
   {
