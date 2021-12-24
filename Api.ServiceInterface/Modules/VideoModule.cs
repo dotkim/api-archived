@@ -46,5 +46,10 @@ namespace Api.ServiceInterface.Modules
     {
       return Database<Video>.Insert(video);
     }
+
+    public Task<bool> ChangeGuild(string name, ulong current, ulong change)
+    {
+      return Database<Video>.ChangeGuild(name, current, change);
+    }
   }
 }

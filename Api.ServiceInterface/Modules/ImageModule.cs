@@ -46,5 +46,10 @@ namespace Api.ServiceInterface.Modules
     {
       return Database<Image>.Insert(image);
     }
+
+    public Task<bool> ChangeGuild(string name, ulong current, ulong change)
+    {
+      return Database<Image>.ChangeGuild(name, current, change);
+    }
   }
 }

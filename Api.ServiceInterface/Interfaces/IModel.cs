@@ -16,5 +16,7 @@ namespace Api.ServiceInterface.Interfaces
     Task<bool> Insert(T type);
 
     Task<bool> Update(T type);
+
+    Task<bool> ChangeGuild(string name, ulong current, ulong change);
   }
 }
