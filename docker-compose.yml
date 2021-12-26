@@ -5,8 +5,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - api-data:/app/uploads:rw
-      - api-data:/app/requestlogs:rw
+      - files:/app/uploads:rw
+      - data:/app/requestlogs:rw
     depends_on:
       - "mongo"
       - "redis"
@@ -16,8 +16,10 @@ services:
   mongo:
     image: "mongo:4.4.10"
     volumes:
-      - api-data:/data/db
+      - db:/data/db
   redis:
     image: "redis:latest"
 volumes:
-  api-data:
+  data: {}
+  files: {}
+  db: {}
