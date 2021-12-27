@@ -293,3 +293,4 @@ __pycache__/
 # Servicestack files and folders
 Api/requestlogs
 docs/
+Api/web.config
