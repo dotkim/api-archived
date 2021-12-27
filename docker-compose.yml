@@ -16,7 +16,7 @@ services:
       - "mongo:database"
       - "redis:auth"
   mongo:
-    image: "mongo:4.4.10"
+    image: "mongo:latest"
     volumes:
       - db:/data/db
   redis:
