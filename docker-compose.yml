@@ -3,10 +3,12 @@ services:
   api:
     build: .
     ports:
-      - "8080:8080"
+      - 8080:8080
+      - 8443:8443
     volumes:
       - files:/app/uploads:rw
       - data:/app/requestlogs:rw
+      - /etc/letsencrypt/live/:/app/certs:ro
     depends_on:
       - "mongo"
       - "redis"
