@@ -108,5 +108,23 @@ namespace Api.ServiceInterface.Storage
 
       return res.IsAcknowledged;
     }
+
+    /// <summary>
+    /// Change the Guild id of a document, used when a file is connected to the wrong guild.
+    /// </summary>
+    /// <param name="name">the name of the file</param>
+    /// <param name="current">the guild the file is connected to</param>
+    /// <param name="change">the guild you want to change to</param>
+    /// <returns></returns>
+    public async static Task<bool> ChangeGuild(string name, ulong current, ulong change)
+    {
+      var res = await DB.Update<T>()
+        .Match(a => a.Name == name)
+        .Match(a => a.GuildId == current)
+        .Modify(x => x.GuildId, change)
+        .ExecuteAsync();
+
+      return res.IsAcknowledged;
+    }
   }
 }

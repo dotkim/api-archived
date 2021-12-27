@@ -24,7 +24,7 @@ namespace Api
           {
             if (appSettings.Exists("UseHTTPS"))
             {
-              options.Listen(IPAddress.Any, 8443, listenOptions =>
+              options.Listen(IPAddress.Any, appSettings.Get<int>("WebPort"), listenOptions =>
               {
                 listenOptions.UseHttps(appSettings.Get<string>("CertificatePath"),
                   appSettings.Get<string>("CertificateSecret"));
@@ -32,7 +32,7 @@ namespace Api
             }
             else
             {
-              options.Listen(IPAddress.Any, 8080);
+              options.Listen(IPAddress.Any, appSettings.Get<int>("WebPort"));
             }
           })
           .UseContentRoot(Directory.GetCurrentDirectory())

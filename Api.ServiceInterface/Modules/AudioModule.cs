@@ -46,5 +46,10 @@ namespace Api.ServiceInterface.Modules
     {
       return Database<Audio>.Insert(audio);
     }
+
+    public Task<bool> ChangeGuild(string name, ulong current, ulong change)
+    {
+      return Database<Audio>.ChangeGuild(name, current, change);
+    }
   }
 }

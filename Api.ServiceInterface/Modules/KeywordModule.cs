@@ -53,5 +53,10 @@ namespace Api.ServiceInterface.Modules
     {
       return Database<Keyword>.Insert(keyword);
     }
+
+    public Task<bool> ChangeGuild(string name, ulong current, ulong change)
+    {
+      return Database<Keyword>.ChangeGuild(name, current, change);
+    }
   }
 }
