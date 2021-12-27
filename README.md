@@ -39,7 +39,7 @@ Things that should be changed if you are setting this in a production environmen
     <add key="ThumbnailSize" value="100"/>
 
     <!-- User for authentication -->
-    <add key="Email" value="admin@knerli.no"/>
+    <add key="Email" value="admin@email.com"/>
     <add key="Name" value="Admin user"/>
     <add key="Password" value="secret"/>
   </appSettings>
