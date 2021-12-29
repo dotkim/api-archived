@@ -2,7 +2,7 @@
 
 ## config template
 
-Create a file here: `./Api/web.config`
+Create a file here: `./Api/config/config.xml`
 
 The template should work "out of the box" and is set up for use with docker.
 
@@ -19,29 +19,30 @@ Things that should be changed if you are setting this in a production environmen
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
-<configuration>
-  <appSettings>
-    <!-- <add key="DebugMode" value="true"/> -->
-    <!-- Web server settings -->
-    <add key="WebPort" value="8080"/>
-    <add key="UseHTTPS" value="false"/>
-    <add key="CertificatePath" value="./path/to/cert.pfx"/>
-    <add key="CertificateSecret" value="CertPassPhrase"/>
+<AppConfig>
+  <!-- Debug and logging -->
+  <DebugMode></DebugMode>
+  <SerilogSink></SerilogSink>
+  
+  <!-- Web server settings -->
+  <WebPort></WebPort>
+  <UseHTTPS></UseHTTPS>
+  <CertificatePath>./path/to/cert.pfx</CertificatePath>
+  <CertificateSecret>CertPassPhrase</CertificateSecret>
 
-    <!-- Database connections -->
-    <add key="MongoConnectionstring" value="mongodb://database:27017"/>
-    <add key="MongoDatabase" value="chatbot"/>
-    <add key="RedisConnectionstring" value="auth:6379"/>
+  <!-- Database connections -->
+  <MongoConnectionstring></MongoConnectionstring>
+  <MongoDatabase></MongoDatabase>
+  <RedisConnectionstring></RedisConnectionstring>
 
-    <!-- Paths for storing files -->
-    <add key="UploadsDir" value="./uploads"/>
-    <add key="ThumbnailsDir" value="./uploads/thumbnails"/>
-    <add key="ThumbnailSize" value="100"/>
+  <!-- Paths for storing files -->
+  <UploadsDir></UploadsDir>
+  <ThumbnailsDir></ThumbnailsDir>
+  <ThumbnailSize></ThumbnailSize>
 
-    <!-- User for authentication -->
-    <add key="Email" value="admin@email.com"/>
-    <add key="Name" value="Admin user"/>
-    <add key="Password" value="secret"/>
-  </appSettings>
-</configuration>
+  <!-- User for authentication -->
+  <Email></Email>
+  <Name></Name>
+  <Password></Password>
+</AppConfig>
 ```
