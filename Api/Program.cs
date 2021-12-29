@@ -3,13 +3,14 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Api.ServiceInterface;
 using Funq;
 using ServiceStack;
-using ServiceStack.Configuration;
 using ServiceStack.VirtualPath;
+using Newtonsoft.Json;
 
 namespace Api
 {
@@ -17,22 +18,29 @@ namespace Api
   {
     public static void Main(string[] args)
     {
-      IAppSettings appSettings = new AppSettings();
+      var builder = new ConfigurationBuilder().AddXmlFile($"./config/config.xml", true, true);
+      AppConfig config = builder.Build().Get<AppConfig>();
+
+      if (config.DebugMode)
+      {
+        System.Console.WriteLine("Running with config:");
+        System.Console.WriteLine(JsonConvert.SerializeObject(config, Formatting.Indented));
+      }
 
       var host = new WebHostBuilder()
           .UseKestrel(options =>
           {
-            if (appSettings.Exists("UseHTTPS"))
+            if (config.UseHTTPS)
             {
-              options.Listen(IPAddress.Any, appSettings.Get<int>("WebPort"), listenOptions =>
+              options.Listen(IPAddress.Any, config.WebPort, listenOptions =>
               {
-                listenOptions.UseHttps(appSettings.Get<string>("CertificatePath"),
-                  appSettings.Get<string>("CertificateSecret"));
+                listenOptions.UseHttps(config.CertificatePath,
+                  config.CertificateSecret);
               });
             }
             else
             {
-              options.Listen(IPAddress.Any, appSettings.Get<int>("WebPort"));
+              options.Listen(IPAddress.Any, config.WebPort);
             }
           })
           .UseContentRoot(Directory.GetCurrentDirectory())
@@ -77,10 +85,12 @@ namespace Api
 
     public override void Configure(Container container)
     {
-      IAppSettings appSettings = new AppSettings();
-      bool debugMode = appSettings.Get<bool>("DebugMode", false);
-      
-      string staticDir = appSettings.Get<string>("UploadsDir");
+      var builder = new ConfigurationBuilder().AddXmlFile($"./config/config.xml", true, true);
+      AppConfig config = builder.Build().Get<AppConfig>();
+
+      bool debugMode = config.DebugMode;
+
+      string staticDir = config.UploadsDir;
       if (!Directory.Exists(staticDir)) Directory.CreateDirectory(staticDir);
       AddVirtualFileSources.Add(new FileSystemMapping("assets", staticDir));
 
