@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ServiceStack;
 using ServiceStack.Auth;
@@ -47,11 +48,12 @@ namespace Api
       var authRepo = appHost.Resolve<IAuthRepository>();
       authRepo.InitSchema();
 
-      IAppSettings appSettings = new AppSettings();
+      var builder = new ConfigurationBuilder().AddXmlFile($"./config/config.xml", true, true);
+      AppConfig config = builder.Build().Get<AppConfig>();
       CreateUser(authRepo,
-        appSettings.Get<string>("Email"),
-        appSettings.Get<string>("Name"),
-        appSettings.Get<string>("Password"),
+        config.Email,
+        config.Name,
+        config.Password,
         roles: new[] { RoleNames.Admin });
     }
 

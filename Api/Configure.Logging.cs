@@ -1,7 +1,7 @@
 using System;
+using Microsoft.Extensions.Configuration;
 using Serilog;
 using ServiceStack;
-using ServiceStack.Configuration;
 using ServiceStack.IO;
 using ServiceStack.Logging;
 using ServiceStack.Logging.Serilog;
@@ -12,7 +12,8 @@ namespace Api
   {
     public void Configure(IAppHost appHost)
     {
-      IAppSettings appSettings = new AppSettings();
+      var builder = new ConfigurationBuilder().AddXmlFile($"./config/config.xml", true, true);
+      AppConfig config = builder.Build().Get<AppConfig>();
 
       appHost.Plugins.Add(new RequestLogsFeature
       {
@@ -25,29 +26,29 @@ namespace Api
       });
 
       //TODO: Write to file or elastic.
-      var config = new LoggerConfiguration();
+      var logConfig = new LoggerConfiguration();
 
       // If we are debugging we set the level higher, else its just default.
-      if (appSettings.Get<bool>("DebugMode", false)) config.MinimumLevel.Debug();
+      if (config.DebugMode) logConfig.MinimumLevel.Debug();
 
-      switch (appSettings.Get<string>("SerilogSink"))
+      switch (config.SerilogSink)
       {
         case "Elastic":
           // Will be changed for elastic support.
-          config.WriteTo.Console();
+          logConfig.WriteTo.Console();
           break;
 
         case "File":
           // Will be changed for file support.
-          config.WriteTo.Console();
+          logConfig.WriteTo.Console();
           break;
 
         default:
-          config.WriteTo.Console();
+          logConfig.WriteTo.Console();
           break;
       }
 
-      LogManager.LogFactory = new SerilogFactory(config.CreateLogger());
+      LogManager.LogFactory = new SerilogFactory(logConfig.CreateLogger());
     }
   }
 }

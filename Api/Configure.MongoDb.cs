@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using ServiceStack;
 using System.Threading.Tasks;
 using MongoDB.Entities;
-using ServiceStack.Configuration;
 
 namespace Api
 {
@@ -19,10 +18,11 @@ namespace Api
     }
     public void Configure(IServiceCollection services)
     {
-      IAppSettings appSettings = new AppSettings();
+      var builder = new ConfigurationBuilder().AddXmlFile($"./config/config.xml", true, true);
+      AppConfig config = builder.Build().Get<AppConfig>();
 
-      string connString = appSettings.Get<string>("MongoConnectionstring", "mongodb://localhost:27017");
-      string db = appSettings.Get<string>("MongoDatabase", "chatbot");
+      string connString = config.MongoConnectionstring;
+      string db = config.MongoDatabase;
 
       Init(db, connString).GetAwaiter().GetResult();
     }

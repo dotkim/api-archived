@@ -13,10 +13,11 @@ namespace Api
 
     public void Configure(IServiceCollection services)
     {
-      IAppSettings appSettings = new AppSettings();
+      var builder = new ConfigurationBuilder().AddXmlFile($"./config/config.xml", true, true);
+      AppConfig config = builder.Build().Get<AppConfig>();
 
       services.AddSingleton<IRedisClientsManager>(
-          new RedisManagerPool(appSettings.Get<string>("RedisConnectionstring", "localhost:6379")));
+          new RedisManagerPool(config.RedisConnectionstring));
     }
 
     public void Configure(IAppHost appHost)
