@@ -75,7 +75,7 @@ namespace Api.ServiceInterface.Storage
     // From: https://github.com/ServiceStackApps/Imgur/blob/9bbac16be61ccb747525ed7eccd26f709a43a749/src/Imgur/Global.asax.cs#L63
     public static List<string> Process(ServiceStack.Web.IHttpFile[] files, string type)
     {
-      var builder = new ConfigurationBuilder().AddXmlFile($"../Api/config/config.xml", true, true);
+      var builder = new ConfigurationBuilder().AddXmlFile($"./config/config.xml", true, true);
       _config = builder.Build().Get<AppConfig>();
 
       var data = new List<string>();
