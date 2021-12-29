@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
     <PackageReference Include="MongoDB.Entities" Version="20.10.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="ServiceStack" Version="5.*" />
@@ -19,6 +20,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Api.ServiceInterface\Api.ServiceInterface.csproj" />
     <ProjectReference Include="..\Api.ServiceModel\Api.ServiceModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update=".\config\config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
