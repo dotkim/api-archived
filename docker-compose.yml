@@ -15,12 +15,15 @@ services:
     links:
       - "mongo:database"
       - "redis:auth"
+    restart: unless-stopped
   mongo:
     image: "mongo:latest"
     volumes:
       - db:/data/db
+    restart: unless-stopped
   redis:
     image: "redis:latest"
+    restart: unless-stopped
 volumes:
   data: {}
   files: {}
