@@ -30,6 +30,14 @@ namespace Api.ServiceInterface
       return new GetKeywordResponse { Result = response };
     }
 
+    public async Task<GetKeywordNamesResponse> GetAsync(GetKeywordNames request)
+    {
+      var query = await _module.GetAllNames(request.GuildId);
+      List<string> response = query.Select(x => x.Name).ToList();
+
+      return new GetKeywordNamesResponse { Result = response };
+    }
+
     public async Task<GetKeywordResponse> PostAsync(PostKeyword request)
     {
       string name = request.Name.ToUpperInvariant();
