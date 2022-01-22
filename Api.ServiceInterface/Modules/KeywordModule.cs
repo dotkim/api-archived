@@ -23,6 +23,11 @@ namespace Api.ServiceInterface.Modules
       return Database<Keyword>.Get(name, guildId);
     }
 
+    public Task<List<Keyword>> GetAllNames(ulong guildId)
+    {
+      return Database<Keyword>.GetAllNames(guildId);
+    }
+
     public Task<List<Keyword>> GetPage(int page, bool filter)
     {
       throw new NotImplementedException();

@@ -22,6 +22,11 @@ namespace Api.ServiceInterface.Modules
       throw new NotImplementedException();
     }
 
+    public Task<List<Audio>> GetAllNames(ulong guildId)
+    {
+      throw new NotImplementedException();
+    }
+
     public Task<List<Audio>> GetPage(int page, bool filter)
     {
       throw new NotImplementedException();

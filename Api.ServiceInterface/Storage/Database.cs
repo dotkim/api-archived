@@ -126,5 +126,13 @@ namespace Api.ServiceInterface.Storage
 
       return res.IsAcknowledged;
     }
+
+    public async static Task<List<T>> GetAllNames(ulong gid)
+    {
+      var res = await DB.Find<T>()
+        .Match(a => a.GuildId == gid)
+        .ExecuteAsync();
+      return res;
+    }
   }
 }

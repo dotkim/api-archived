@@ -22,6 +22,11 @@ namespace Api.ServiceInterface.Modules
       throw new NotImplementedException();
     }
 
+    public Task<List<Image>> GetAllNames(ulong guildId)
+    {
+      throw new NotImplementedException();
+    }
+
     public Task<List<Image>> GetPage(int page, bool filter)
     {
       throw new NotImplementedException();
