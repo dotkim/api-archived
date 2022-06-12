@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Api.ServiceInterface.Modules;
 using Api.ServiceModel;
-using Api.ServiceModel.Types;
+using Api.ServiceModel.Entities;
 using ServiceStack;
 using ServiceStack.Logging;
 
@@ -14,25 +13,23 @@ namespace Api.ServiceInterface
   public class KeywordService : Service
   {
     private static ILog _Log = LogManager.GetLogger(typeof(KeywordService));
-    private KeywordModule _module = new KeywordModule();
 
     public async Task<GetKeywordResponse> GetAsync(GetKeyword request)
     {
       string name = request.Name.ToUpperInvariant();
-      var query = await _module.Get(name, request.GuildId);
+      var query = await Keyword.Get(name, request.GuildId);
 
       int min = query.Messages.Min(x => x.Count);
-      KeywordMessage response = query.Messages.Where(x => x.Count == min).First();
+      Message message = query.Messages.Where(x => x.Count == min).First();
 
-      query.Messages.Find(x => x.Message.Equals(response.Message)).Count++;
-      var update = await _module.Update(query);
+      await message.IncrementCount();
 
-      return new GetKeywordResponse { Result = response };
+      return new GetKeywordResponse { Result = message };
     }
 
     public async Task<GetKeywordNamesResponse> GetAsync(GetKeywordNames request)
     {
-      var query = await _module.GetAllNames(request.GuildId);
+      var query = await Keyword.GetAllNames(request.GuildId);
       List<string> response = query.Select(x => x.Name).ToList();
 
       return new GetKeywordNamesResponse { Result = response };
@@ -41,30 +38,37 @@ namespace Api.ServiceInterface
     public async Task<GetKeywordResponse> PostAsync(PostKeyword request)
     {
       string name = request.Name.ToUpperInvariant();
-      var exist = await _module.Exists(name, request.GuildId);
+      var exist = await new Keyword{ Name = name, GuildId = request.GuildId }.Exists();
 
       if (exist)
       {
-        var keyword = await _module.Get(name, request.GuildId);
+        var keyword = await Keyword.Get(name, request.GuildId);
         int count = keyword.Messages.Min(x => x.Count);
+        
+        var message = new Message();
+        message.Text = request.Message;
+        message.Count = count;
+        message.UploaderId = request.UploaderId;
+        await keyword.Messages.AddAsync(message);
 
-        var schema = new KeywordMessage { Message = request.Message, Count = count };
-        keyword.Messages.Add(schema);
-
-        var query = await _module.Update(keyword);
+        return new GetKeywordResponse { Result = message };
       }
       else
       {
-        var schema = _module.GetTypeConstraint();
+        var schema = new Keyword();
         schema.Name = name;
         schema.GuildId = request.GuildId;
         schema.UploaderId = request.UploaderId;
-        schema.Messages = new List<KeywordMessage> { new KeywordMessage { Message = request.Message } };
+        await schema.Save();
 
-        var query = await _module.Insert(schema);
+        var message = new Message();
+        message.Text = request.Message;
+        message.UploaderId = request.UploaderId;
+        await message.Save();
+        await schema.Messages.AddAsync(message);
+
+        return new GetKeywordResponse { Result = message };
       }
-
-      return new GetKeywordResponse { Result = new KeywordMessage { Message = request.Message } };
     }
   }
 }

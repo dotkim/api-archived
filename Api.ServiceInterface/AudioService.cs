@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Api.ServiceInterface.Modules;
 using Api.ServiceInterface.Storage;
 using Api.ServiceModel;
+using Api.ServiceModel.Entities;
 using ServiceStack;
 using ServiceStack.Logging;
 
@@ -16,11 +16,10 @@ namespace Api.ServiceInterface
   public class AudioService : Service
   {
     private static ILog _Log = LogManager.GetLogger(typeof(AudioService));
-    private AudioModule _module = new AudioModule();
 
     public async Task<GetAudioRandomResponse> GetAsync(GetAudioRandom request)
     {
-      var query = await _module.GetRandom(request.GuildId, request.Filter);
+      var query = await Audio.GetRandom(request.GuildId, request.Filter);
       if (query is null) throw new FileNotFoundException("There are no audio files for this guild.");
 
       return new GetAudioRandomResponse { FileInfo = query };
@@ -46,25 +45,25 @@ namespace Api.ServiceInterface
       {
         string ext = file.Split(".").Last();
 
-        var audio = _module.GetTypeConstraint();
+        var audio = new Audio();
         audio.Name = file;
         audio.GuildId = request.GuildId;
         audio.UploaderId = request.UploaderId;
         audio.Extension = ext;
         audio.Tags = new List<string> { "tagme" };
 
-        bool check = await _module.Exists(audio.Name, request.GuildId);
+        bool check = await audio.Exists();
 
         bool query;
         // A file should be updated when it already exists.
         // If it doesn't its inserted.
         if (check)
         {
-          query = await _module.Update(audio);
+          query = await audio.Update();
         }
         else
         {
-          query = await _module.Insert(audio);
+          query = await audio.Insert();
         }
 
         // Adds the file and query result.

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Api.ServiceInterface.Modules;
 using Api.ServiceInterface.Storage;
 using Api.ServiceModel;
+using Api.ServiceModel.Entities;
 using ServiceStack;
 using ServiceStack.Logging;
 
@@ -16,11 +16,10 @@ namespace Api.ServiceInterface
   public class ImageService : Service
   {
     private static ILog _Log = LogManager.GetLogger(typeof(ImageService));
-    private ImageModule _module = new ImageModule();
 
     public async Task<GetImageRandomResponse> GetAsync(GetImageRandom request)
     {
-      var query = await _module.GetRandom(request.GuildId, request.Filter);
+      var query = await Image.GetRandom(request.GuildId, request.Filter);
       if (query is null) throw new FileNotFoundException("There are no image files for this guild.");
 
       return new GetImageRandomResponse { FileInfo = query };
@@ -46,25 +45,25 @@ namespace Api.ServiceInterface
       {
         string ext = file.Split(".").Last();
 
-        var image = _module.GetTypeConstraint();
+        var image = new Image();
         image.Name = file;
         image.GuildId = request.GuildId;
         image.UploaderId = request.UploaderId;
         image.Extension = ext;
         image.Tags = new List<string> { "tagme" };
 
-        bool check = await _module.Exists(image.Name, request.GuildId);
+        bool check = await image.Exists();
 
         bool query;
         // A file should be updated when it already exists.
         // If it doesn't its inserted.
         if (check)
         {
-          query = await _module.Update(image);
+          query = await image.Update();
         }
         else
         {
-          query = await _module.Insert(image);
+          query = await image.Insert();
         }
 
         // Adds the file and query result.
