@@ -1,20 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>Api</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>Api</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.*" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
-    <PackageReference Include="MongoDB.Entities" Version="20.10.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
-    <PackageReference Include="ServiceStack" Version="5.*" />
-    <PackageReference Include="ServiceStack.Logging.Serilog" Version="5.*" />
-    <PackageReference Include="ServiceStack.Redis" Version="5.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageReference Include="MongoDB.Entities" Version="20.26.3" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
+    <PackageReference Include="ServiceStack" Version="6.1.1" />
+    <PackageReference Include="ServiceStack.Logging.Serilog" Version="6.1.1" />
+    <PackageReference Include="ServiceStack.Redis" Version="6.1.1" />
   </ItemGroup>
 
   <ItemGroup>
