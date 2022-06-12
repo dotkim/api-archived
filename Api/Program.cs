@@ -10,6 +10,7 @@ using Api.ServiceInterface;
 using Funq;
 using ServiceStack;
 using ServiceStack.VirtualPath;
+using System.Text.Json;
 
 namespace Api
 {
@@ -23,8 +24,8 @@ namespace Api
       if (config.DebugMode)
       {
         System.Console.WriteLine("Running with config:");
-        System.Console.WriteLine(Newtonsoft.Json.JsonConvert
-          .SerializeObject(config, Newtonsoft.Json.Formatting.Indented));
+        System.Console.WriteLine(JsonSerializer.Serialize(config,
+          new JsonSerializerOptions{ WriteIndented = true }));
       }
 
       var host = new WebHostBuilder()
