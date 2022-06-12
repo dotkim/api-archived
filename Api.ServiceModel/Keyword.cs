@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Api.ServiceModel.Types;
+using Api.ServiceModel.Entities;
 using ServiceStack;
 
 namespace Api.ServiceModel
@@ -19,7 +19,7 @@ namespace Api.ServiceModel
 
   public class GetKeywordResponse
   {
-    public KeywordMessage Result { get; set; }
+    public Message Result { get; set; }
   }
 
   public class GetKeywordNamesResponse
